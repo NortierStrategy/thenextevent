@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thenextevent.fr/sitemap.xml

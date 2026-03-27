@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 48" fill="currentColor">
+  <!-- Two overlapping circles -->
+  <circle cx="28" cy="24" r="18" fill="currentColor" opacity="0.6"/>
+  <circle cx="52" cy="24" r="18" fill="currentColor" opacity="0.4"/>
+</svg>

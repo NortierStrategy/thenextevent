@@ -1,0 +1,211 @@
+"use client";
+
+import Script from "next/script";
+import { useState, useEffect, useRef } from "react";
+
+/**
+ * Analytics & Tracking — RGPD Compliant
+ * ──────────────────────────────────────
+ * Scripts are ONLY loaded after user consent (localStorage "tne_cookie_consent" === "accepted").
+ * Without consent, ZERO tracking scripts are injected.
+ */
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
+const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
+const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID || "";
+const HOTJAR_ID = process.env.NEXT_PUBLIC_HOTJAR_ID || "";
+const CONTENTSQUARE_ID = process.env.NEXT_PUBLIC_CONTENTSQUARE_ID || "";
+
+const CONSENT_KEY = "tne_cookie_consent";
+
+export default function Analytics() {
+  const [hasConsent, setHasConsent] = useState(false);
+
+  const hasGA = GA_ID.length > 0;
+  const hasGTM = GTM_ID.length > 0;
+  const hasMeta = META_PIXEL_ID.length > 0;
+  const hasLinkedIn = LINKEDIN_PARTNER_ID.length > 0;
+  const hasHotjar = HOTJAR_ID.length > 0;
+  const hasContentsquare = CONTENTSQUARE_ID.length > 0;
+  const hasAny = hasGA || hasGTM || hasMeta || hasLinkedIn || hasHotjar || hasContentsquare;
+
+  const scrollTrackedRef = useRef<{ half: boolean; full: boolean }>({
+    half: false,
+    full: false,
+  });
+
+  // Check consent from localStorage
+  useEffect(() => {
+    if (!hasAny) return;
+    const stored = localStorage.getItem(CONSENT_KEY);
+    setHasConsent(stored === "accepted");
+  }, [hasAny]);
+
+  // GTM noscript iframe — only after consent
+  useEffect(() => {
+    if (!hasConsent || !hasGTM) return;
+
+    const noscript = document.createElement("noscript");
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.googletagmanager.com/ns.html?id=${GTM_ID}`;
+    iframe.height = "0";
+    iframe.width = "0";
+    iframe.style.display = "none";
+    iframe.style.visibility = "hidden";
+    noscript.appendChild(iframe);
+    document.body.insertBefore(noscript, document.body.firstChild);
+
+    return () => {
+      noscript.remove();
+    };
+  }, [hasConsent, hasGTM]);
+
+  // Scroll depth tracking — only after consent
+  useEffect(() => {
+    if (!hasConsent) return;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+
+      if (docHeight <= 0) return;
+
+      const scrollPercent = (scrollTop / docHeight) * 100;
+
+      if (!scrollTrackedRef.current.half && scrollPercent >= 50) {
+        scrollTrackedRef.current.half = true;
+        trackEvent("scroll_depth", { depth: "50" });
+      }
+
+      if (!scrollTrackedRef.current.full && scrollPercent >= 98) {
+        scrollTrackedRef.current.full = true;
+        trackEvent("scroll_depth", { depth: "100" });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasConsent]);
+
+  // No tracking IDs or no consent → render nothing
+  if (!hasAny || !hasConsent) return null;
+
+  return (
+    <>
+      {/* ── Google Tag Manager ── */}
+      {hasGTM && (
+        <Script id="gtm-init" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','${GTM_ID}');
+          `}
+        </Script>
+      )}
+
+      {/* ── Google Analytics 4 ── */}
+      {hasGA && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_ID}', {
+                page_path: window.location.pathname,
+                anonymize_ip: true,
+              });
+            `}
+          </Script>
+        </>
+      )}
+
+      {/* ── Meta Pixel ── */}
+      {hasMeta && (
+        <Script id="meta-pixel" strategy="afterInteractive">
+          {`
+            !function(f,b,e,v,n,t,s)
+            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+            fbq('init', '${META_PIXEL_ID}');
+            fbq('track', 'PageView');
+          `}
+        </Script>
+      )}
+
+      {/* ── LinkedIn Insight Tag ── */}
+      {hasLinkedIn && (
+        <Script id="linkedin-insight" strategy="afterInteractive">
+          {`
+            _linkedin_partner_id = "${LINKEDIN_PARTNER_ID}";
+            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+            window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+            (function(l) {
+              if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+              window.lintrk.q=[]}
+              var s = document.getElementsByTagName("script")[0];
+              var b = document.createElement("script");
+              b.type = "text/javascript";b.async = true;
+              b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+              s.parentNode.insertBefore(b, s);
+            })(window.lintrk);
+          `}
+        </Script>
+      )}
+
+      {/* ── Hotjar (legacy) ── */}
+      {hasHotjar && (
+        <Script id="hotjar" strategy="afterInteractive">
+          {`
+            (function(h,o,t,j,a,r){
+              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+              h._hjSettings={hjid:${HOTJAR_ID},hjsv:6};
+              a=o.getElementsByTagName('head')[0];
+              r=o.createElement('script');r.async=1;
+              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+              a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          `}
+        </Script>
+      )}
+
+      {/* ── Contentsquare (ex-Hotjar) ── */}
+      {hasContentsquare && (
+        <Script
+          id="contentsquare"
+          src={`https://t.contentsquare.net/uxa/${CONTENTSQUARE_ID}.js`}
+          strategy="afterInteractive"
+        />
+      )}
+    </>
+  );
+}
+
+/**
+ * Track custom events (form submissions, CTA clicks, etc.)
+ * Safe to call anytime — silently no-ops if scripts aren't loaded.
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export function trackEvent(eventName: string, params?: Record<string, string>) {
+  const w = typeof window !== "undefined" ? (window as any) : null;
+  if (!w) return;
+  if (w.gtag) w.gtag("event", eventName, params);
+  if (w.dataLayer) w.dataLayer.push({ event: eventName, ...params });
+  if (w.fbq) w.fbq("trackCustom", eventName, params);
+  if (w.lintrk) w.lintrk("track", { conversion_id: eventName });
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
