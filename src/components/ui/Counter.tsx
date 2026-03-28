@@ -13,7 +13,7 @@ export default function Counter({
   value,
   suffix = "",
   label,
-  duration = 2000,
+  duration = 4000,
 }: CounterProps) {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -28,7 +28,8 @@ export default function Counter({
     const tick = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      // Ease-out quint: starts fast, slows down dramatically near the end
+      const eased = 1 - Math.pow(1 - progress, 5);
       setCount(Math.floor(eased * value));
       if (progress < 1) {
         requestAnimationFrame(tick);
