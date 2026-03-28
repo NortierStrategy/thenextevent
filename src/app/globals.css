@@ -84,11 +84,17 @@ button:focus-visible,
   }
 }
 
-/* IntersectionObserver-based scroll reveal — pure fade, no translate */
+/* IntersectionObserver-based scroll reveal */
 .in-view-hidden {
   opacity: 0;
 }
 
+/* Already in viewport on load — show immediately, no animation */
+.in-view-instant {
+  opacity: 1;
+}
+
+/* Scrolled into view — smooth fade */
 .in-view-visible {
   opacity: 1;
   transition: opacity 1.4s ease;
