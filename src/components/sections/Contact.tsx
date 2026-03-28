@@ -596,6 +596,8 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                           <motion.div
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
+                            role="alert"
+                            aria-live="assertive"
                             className="flex items-start gap-3 p-3 rounded-[2px] bg-red/[0.06] border border-red/20"
                           >
                             <svg

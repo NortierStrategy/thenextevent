@@ -93,6 +93,13 @@ export default function Footer({ dict, locale }: FooterProps) {
             </Link>
             <span className="text-text-muted/20">|</span>
             <Link
+              href={`/${locale}/rejoindre`}
+              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
+            >
+              {locale === "en" ? "Join Us" : "Rejoindre l\u2019équipe"}
+            </Link>
+            <span className="text-text-muted/20">|</span>
+            <Link
               href={`/${locale}/mentions-legales`}
               className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
             >
@@ -110,6 +117,7 @@ export default function Footer({ dict, locale }: FooterProps) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`${social.label} (nouvel onglet)`}
                 className="font-outfit text-[11px] uppercase tracking-[2px] text-text hover:text-red transition-colors duration-300"
               >
                 {social.label}

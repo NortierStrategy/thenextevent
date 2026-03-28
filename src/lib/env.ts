@@ -29,7 +29,7 @@ export function validateEnv(): void {
     if (!process.env[key]) warnings.push(key);
   }
 
-  if (warnings.length > 0 && process.env.NODE_ENV === "production") {
+  if (warnings.length > 0 && process.env.NODE_ENV === "development") {
     console.warn(`⚠️  [TNE] Optional env vars missing: ${warnings.join(", ")}`);
   }
 

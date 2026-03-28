@@ -10,6 +10,7 @@ function fetchT(url: string, init: RequestInit, ms = 10_000): Promise<Response> 
 }
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
+const MAX_CV_SIZE = 5 * 1024 * 1024; // 5 MB
 
 /* ── Zod Schema ── */
 const recruitSchema = z.object({
@@ -44,8 +45,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Parse FormData
+    const formData = await req.formData();
+    const raw = {
+      nom: formData.get("nom") as string || "",
+      email: formData.get("email") as string || "",
+      telephone: formData.get("telephone") as string || "",
+      ville: formData.get("ville") as string || "",
+      experience: (formData.get("experience") as string) || "",
+      message: (formData.get("message") as string) || "",
+    };
+
     // Zod validation
-    const raw = await req.json();
     const parsed = recruitSchema.safeParse(raw);
 
     if (!parsed.success) {
@@ -59,32 +70,67 @@ export async function POST(req: NextRequest) {
     const data = parsed.data;
     const s = (v: string | undefined) => escapeHtml(v || "—");
 
+    // Handle CV file
+    const cvFile = formData.get("cv") as File | null;
+    let cvAttachment: { filename: string; content: string } | null = null;
+
+    if (cvFile && cvFile.size > 0) {
+      if (cvFile.type !== "application/pdf") {
+        return NextResponse.json(
+          { success: false, error: "Seuls les fichiers PDF sont acceptés." },
+          { status: 400 }
+        );
+      }
+      if (cvFile.size > MAX_CV_SIZE) {
+        return NextResponse.json(
+          { success: false, error: "Le CV ne doit pas dépasser 5 Mo." },
+          { status: 400 }
+        );
+      }
+      const buffer = Buffer.from(await cvFile.arrayBuffer());
+      cvAttachment = {
+        filename: `CV_${data.nom.replace(/\s+/g, "_")}.pdf`,
+        content: buffer.toString("base64"),
+      };
+    }
+
     if (RESEND_API_KEY) {
+      const cvNote = cvAttachment
+        ? '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">CV</td><td style="padding:8px;border:1px solid #ddd">✅ En pièce jointe</td></tr>'
+        : '<tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">CV</td><td style="padding:8px;border:1px solid #ddd;color:#999">Non fourni</td></tr>';
+
+      const notificationPayload: Record<string, unknown> = {
+        from: "The Next Event <noreply@thenextevent.fr>",
+        to: ["contact@thenextevent.fr"],
+        subject: `Nouvelle candidature — ${escapeHtml(data.nom)} (${escapeHtml(data.ville)})`,
+        html: `
+          <h2>Nouvelle candidature régisseur</h2>
+          <table style="border-collapse:collapse;width:100%">
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nom</td><td style="padding:8px;border:1px solid #ddd">${s(data.nom)}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${s(data.email)}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Téléphone</td><td style="padding:8px;border:1px solid #ddd">${s(data.telephone)}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ville</td><td style="padding:8px;border:1px solid #ddd">${s(data.ville)}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Expérience</td><td style="padding:8px;border:1px solid #ddd">${s(data.experience)}</td></tr>
+            <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Message</td><td style="padding:8px;border:1px solid #ddd">${s(data.message)}</td></tr>
+            ${cvNote}
+          </table>
+          <p style="margin-top:16px;color:#666">Source: thenextevent.fr/rejoindre — ${new Date().toISOString()}</p>
+        `,
+      };
+
+      if (cvAttachment) {
+        notificationPayload.attachments = [cvAttachment];
+      }
+
       const results = await Promise.allSettled([
-        // Notification to recruitment team
+        // Notification to team with CV attached
         fetchT("https://api.resend.com/emails", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${RESEND_API_KEY}`,
           },
-          body: JSON.stringify({
-            from: "The Next Event <noreply@thenextevent.fr>",
-            to: ["recrutement@thenextevent.fr"],
-            subject: `Nouvelle candidature — ${escapeHtml(data.nom)} (${escapeHtml(data.ville)})`,
-            html: `
-              <h2>Nouvelle candidature régisseur</h2>
-              <table style="border-collapse:collapse;width:100%">
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Nom</td><td style="padding:8px;border:1px solid #ddd">${s(data.nom)}</td></tr>
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Email</td><td style="padding:8px;border:1px solid #ddd">${s(data.email)}</td></tr>
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Téléphone</td><td style="padding:8px;border:1px solid #ddd">${s(data.telephone)}</td></tr>
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Ville</td><td style="padding:8px;border:1px solid #ddd">${s(data.ville)}</td></tr>
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Expérience</td><td style="padding:8px;border:1px solid #ddd">${s(data.experience)}</td></tr>
-                <tr><td style="padding:8px;border:1px solid #ddd;font-weight:bold">Message</td><td style="padding:8px;border:1px solid #ddd">${s(data.message)}</td></tr>
-              </table>
-              <p style="margin-top:16px;color:#666">Source: thenextevent.fr/rejoindre — ${new Date().toISOString()}</p>
-            `,
-          }),
+          body: JSON.stringify(notificationPayload),
         }),
         // Confirmation to candidate
         fetchT("https://api.resend.com/emails", {
@@ -103,8 +149,6 @@ export async function POST(req: NextRequest) {
                 <p style="color:#8A8580;line-height:1.8;font-size:15px;">Votre candidature a bien été reçue. Notre équipe l'examinera avec attention.</p>
                 <p style="color:#8A8580;line-height:1.8;font-size:15px;">Nous reviendrons vers vous <strong style="color:#C4A35A;">sous 48 heures</strong>.</p>
                 <hr style="border:1px solid #1E1E1E;margin:30px 0;" />
-                <p style="color:#8A8580;font-size:14px;">N'oubliez pas d'envoyer votre CV à :<br/>
-                <a href="mailto:recrutement@thenextevent.fr" style="color:#9B1B24;text-decoration:none;font-weight:bold;">recrutement@thenextevent.fr</a></p>
                 <p style="color:#555;font-size:12px;margin-top:30px;">The Next Event — 66 rue du Cherche-Midi, 75006 Paris</p>
               </div>
             `,

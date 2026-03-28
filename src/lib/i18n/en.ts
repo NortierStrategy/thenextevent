@@ -79,7 +79,7 @@ const en = {
       { title: "Vype", category: "Luxury & Lifestyle", location: "Paris", image: "/images/projet/12.jpg" },
       { title: "Mastercard", category: "Finance", location: "Roland Garros", image: "/images/projet/13.jpg" },
       { title: "Triumph", category: "Product Launch", location: "Paris", image: "/images/projet/14.jpg" },
-      /* TODO: Replace with real photos and descriptions — see Nicola */
+      /* @todo Replace with real photos and descriptions — Nicola */
       { title: "Roadshow Porsche", category: "Automobile", location: "France", image: "/images/projet/16.jpg" },
       { title: "Roadshow Porsche", category: "Automobile", location: "France", image: "/images/projet/17.jpg" },
       { title: "Roadshow Porsche", category: "Automobile", location: "Saint-Tropez", image: "/images/projet/21.jpg" },

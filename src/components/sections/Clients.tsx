@@ -39,7 +39,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
 
         <div
           className="flex items-center whitespace-nowrap ticker-scroll"
-          style={{ animation: "ticker 45s linear infinite" }}
+          style={{ animation: "ticker 90s linear infinite" }}
         >
           {tripled.map(([name, w, h], i) => (
             <div

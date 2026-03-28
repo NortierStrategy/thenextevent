@@ -3,11 +3,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
 import { trackEvent } from "@/components/layout/Analytics";
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 const recruitSchema = z.object({
   nom: z.string().min(1, "Nom requis"),
@@ -22,6 +24,9 @@ type RecruitFormData = z.infer<typeof recruitSchema>;
 
 export default function RecruitForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvError, setCvError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -33,13 +38,43 @@ export default function RecruitForm() {
 
   const [errorMsg, setErrorMsg] = useState("");
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCvError("");
+    const file = e.target.files?.[0];
+    if (!file) {
+      setCvFile(null);
+      return;
+    }
+    if (file.type !== "application/pdf") {
+      setCvError("Seuls les fichiers PDF sont acceptés.");
+      setCvFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      setCvError("Le fichier ne doit pas dépasser 5 Mo.");
+      setCvFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+    setCvFile(file);
+  };
+
   const onSubmit = async (data: RecruitFormData) => {
     setErrorMsg("");
     try {
+      const formData = new FormData();
+      formData.append("nom", data.nom);
+      formData.append("email", data.email);
+      formData.append("telephone", data.telephone);
+      formData.append("ville", data.ville);
+      if (data.experience) formData.append("experience", data.experience);
+      if (data.message) formData.append("message", data.message);
+      if (cvFile) formData.append("cv", cvFile);
+
       const res = await fetch("/api/recruit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
       if (!res.ok) {
         const json = await res.json();
@@ -58,10 +93,10 @@ export default function RecruitForm() {
     return (
       <div className="text-center py-16">
         <div className="text-gold text-5xl mb-6">&#10003;</div>
-        <h3 className="font-cormorant text-3xl text-off-white mb-4">
+        <h3 className="font-playfair text-3xl text-text mb-4">
           Candidature envoyée
         </h3>
-        <p className="font-poppins text-off-white/60 text-sm font-light">
+        <p className="font-outfit text-text-muted text-sm font-light">
           Notre équipe examinera votre profil et vous contactera rapidement.
         </p>
       </div>
@@ -110,14 +145,37 @@ export default function RecruitForm() {
         {...register("message")}
         error={errors.message?.message}
       />
-      <p className="font-poppins text-off-white/40 text-xs font-light">
-        CV : Envoyez votre CV par email à{" "}
-        <a href="mailto:recrutement@thenextevent.fr" className="text-gold hover:underline">
-          recrutement@thenextevent.fr
-        </a>
-      </p>
+
+      {/* CV Upload */}
+      <div className="space-y-2">
+        <label
+          htmlFor="cv-upload"
+          className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted"
+        >
+          CV (PDF, max 5 Mo)
+        </label>
+        <div className="relative">
+          <input
+            ref={fileInputRef}
+            id="cv-upload"
+            type="file"
+            accept=".pdf,application/pdf"
+            onChange={handleFileChange}
+            className="block w-full font-outfit text-sm text-text file:mr-4 file:py-2.5 file:px-5 file:rounded-[2px] file:border file:border-red/20 file:text-sm file:font-medium file:bg-medium file:text-text hover:file:bg-red/10 file:cursor-pointer file:transition-colors file:duration-300 cursor-pointer"
+          />
+          {cvFile && (
+            <p className="mt-1.5 font-outfit text-xs text-gold/80">
+              {cvFile.name} ({(cvFile.size / 1024 / 1024).toFixed(1)} Mo)
+            </p>
+          )}
+          {cvError && (
+            <p role="alert" className="mt-1.5 text-red text-xs font-outfit">{cvError}</p>
+          )}
+        </div>
+      </div>
+
       {errorMsg && (
-        <p className="text-red text-sm font-light">{errorMsg}</p>
+        <p role="alert" aria-live="assertive" className="text-red text-sm font-light">{errorMsg}</p>
       )}
       <Button type="submit" variant="primary" disabled={isSubmitting}>
         {isSubmitting ? "Envoi en cours..." : "Envoyer ma candidature"}

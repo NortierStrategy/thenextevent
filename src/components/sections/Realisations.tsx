@@ -47,7 +47,7 @@ export default function Realisations({ dict }: RealisationsProps) {
             aria-label={item.title}
             onClick={() => trackEvent("realisation_click", { project: item.title })}
             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") trackEvent("realisation_click", { project: item.title }); }}
-            className="group relative aspect-[4/3] rounded-[4px] border border-red/[0.08] overflow-hidden cursor-pointer hover:border-red/25 transition-all duration-500 hover:-translate-y-[3px]"
+            className="group relative aspect-[4/3] rounded-[4px] border border-red/[0.08] overflow-hidden cursor-pointer hover:border-red/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:border-gold/30 transition-all duration-500 hover:-translate-y-[3px]"
           >
             {/* Photo */}
             {item.image && (

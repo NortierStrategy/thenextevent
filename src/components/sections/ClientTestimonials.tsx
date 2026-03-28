@@ -5,7 +5,7 @@ import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
 
-/* TODO: Remplacer par les vrais témoignages — voir Nicola */
+/* @todo Remplacer par les vrais témoignages — Nicola */
 const testimonials = [
   {
     quote:

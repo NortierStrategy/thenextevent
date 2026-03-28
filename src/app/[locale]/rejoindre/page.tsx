@@ -8,24 +8,24 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const advantages = [
   {
-    title: "\u00c9v\u00e9nements Prestigieux",
+    title: "Événements Prestigieux",
     description:
-      "Travaillez pour les plus grandes marques du luxe, de la tech et de la culture \u00e0 Paris et \u00e0 l'international.",
+      "Travaillez pour les plus grandes marques du luxe, de la tech et de la culture à Paris et à l'international.",
   },
   {
-    title: "R\u00e9mun\u00e9ration Attractive",
+    title: "Rémunération Attractive",
     description:
-      "Des missions bien r\u00e9mun\u00e9r\u00e9es avec paiement rapide et transparent.",
+      "Des missions bien rémunérées avec paiement rapide et transparent.",
   },
   {
-    title: "Flexibilit\u00e9 Totale",
+    title: "Flexibilité Totale",
     description:
-      "Choisissez vos missions selon votre disponibilit\u00e9 et vos pr\u00e9f\u00e9rences.",
+      "Choisissez vos missions selon votre disponibilité et vos préférences.",
   },
   {
-    title: "R\u00e9seau Premium",
+    title: "Réseau Premium",
     description:
-      "Int\u00e9grez un r\u00e9seau de r\u00e9gisseurs et professionnels d'exception haut de gamme.",
+      "Intégrez un réseau de régisseurs et professionnels d'exception haut de gamme.",
   },
 ];
 
@@ -40,12 +40,12 @@ export default function RejoindrePage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="font-playfair text-[clamp(36px,5vw,64px)] font-light text-text leading-tight mb-6">
-              Rejoignez <em className="text-gradient-red">l&apos;\u00e9lite</em>
+              Rejoignez <em className="text-gradient-red">l&apos;élite</em>
             </h1>
             <p className="font-outfit text-text-muted text-base max-w-2xl mx-auto font-light">
-              Int\u00e9grez notre r\u00e9seau de r\u00e9gisseurs et professionnels
-              d&apos;exception pour participer aux \u00e9v\u00e9nements de luxe les plus
-              prestigieux \u00e0 Paris et \u00e0 l&apos;international.
+              Intégrez notre réseau de régisseurs et professionnels
+              d&apos;exception pour participer aux événements de luxe les plus
+              prestigieux à Paris et à l&apos;international.
             </p>
           </motion.div>
         </div>
@@ -84,8 +84,8 @@ export default function RejoindrePage() {
       <Section>
         <SectionTitle
           label="Candidature"
-          title="Rejoindre le r\u00e9seau"
-          italicWord="r\u00e9seau"
+          title="Rejoindre le réseau"
+          italicWord="réseau"
         />
         <div className="max-w-2xl mx-auto">
           <RecruitForm />

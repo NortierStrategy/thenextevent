@@ -7,9 +7,10 @@ import Expertises from "@/components/sections/Expertises";
 import Clients from "@/components/sections/Clients";
 import Realisations from "@/components/sections/Realisations";
 
-const Metiers = dynamic(() => import("@/components/sections/Metiers"));
-const Testimonials = dynamic(() => import("@/components/sections/Testimonials"));
-const Contact = dynamic(() => import("@/components/sections/Contact"));
+const SectionSkeleton = () => <div className="py-20"><div className="max-w-[1200px] mx-auto px-8"><div className="h-8 w-48 bg-dark rounded mb-8 mx-auto animate-pulse" /><div className="grid grid-cols-1 sm:grid-cols-3 gap-4">{[1,2,3].map(i => <div key={i} className="h-48 bg-dark rounded animate-pulse" />)}</div></div></div>;
+const Metiers = dynamic(() => import("@/components/sections/Metiers"), { loading: SectionSkeleton });
+const Testimonials = dynamic(() => import("@/components/sections/Testimonials"), { loading: () => <div className="py-16 bg-dark"><div className="h-32 max-w-[600px] mx-auto bg-dark/50 rounded animate-pulse" /></div> });
+const Contact = dynamic(() => import("@/components/sections/Contact"), { loading: SectionSkeleton });
 
 export default async function Home({
   params,
