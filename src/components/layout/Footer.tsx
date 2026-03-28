@@ -44,6 +44,14 @@ export default function Footer({ dict, locale }: FooterProps) {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href={`/${locale}/rejoindre`}
+                  className="font-outfit text-[13px] text-text hover:text-red transition-colors duration-300 font-light"
+                >
+                  {locale === "en" ? "Join the team" : "Rejoindre l\u2019équipe"}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -90,13 +98,6 @@ export default function Footer({ dict, locale }: FooterProps) {
               className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
             >
               {locale === "en" ? "Terms & Conditions" : "CGV"}
-            </Link>
-            <span className="text-text-muted/20">|</span>
-            <Link
-              href={`/${locale}/rejoindre`}
-              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
-            >
-              {locale === "en" ? "Join Us" : "Rejoindre l\u2019équipe"}
             </Link>
             <span className="text-text-muted/20">|</span>
             <Link
