@@ -3,6 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+
+const BLUR_DATA_URL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMUUxRTFFIi8+PC9zdmc+";
 import { fadeInUp } from "@/lib/animations";
 import type { BlogPost } from "@/lib/blog";
 import type { Dictionary } from "@/lib/i18n";
@@ -237,6 +240,8 @@ export default function BlogArticle({
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 720px"
               priority
+              placeholder="blur"
+              blurDataURL={BLUR_DATA_URL}
             />
           </motion.div>
 
@@ -299,6 +304,8 @@ export default function BlogArticle({
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                         sizes="(max-width: 640px) 100vw, 360px"
+                        placeholder="blur"
+                        blurDataURL={BLUR_DATA_URL}
                       />
                     </div>
                     <div className="p-5">

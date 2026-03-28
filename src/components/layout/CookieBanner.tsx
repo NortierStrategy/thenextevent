@@ -37,8 +37,8 @@ export default function CookieBanner() {
   const handleAccept = () => {
     localStorage.setItem(CONSENT_KEY, "accepted");
     setConsent("accepted");
-    // Reload to activate tracking scripts
-    window.location.reload();
+    // Dispatch event so Analytics re-checks consent without page reload
+    window.dispatchEvent(new Event("tne-consent-change"));
   };
 
   const handleReject = () => {

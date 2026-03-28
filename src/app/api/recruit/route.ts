@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { checkCsrf, escapeHtml, checkRateLimit, getClientIp } from "@/lib/api/security";
 
+/** Fetch with 10s abort timeout */
+function fetchT(url: string, init: RequestInit, ms = 10_000): Promise<Response> {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, { ...init, signal: c.signal }).finally(() => clearTimeout(t));
+}
+
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 
 /* ── Zod Schema ── */
@@ -55,7 +62,7 @@ export async function POST(req: NextRequest) {
     if (RESEND_API_KEY) {
       const results = await Promise.allSettled([
         // Notification to recruitment team
-        fetch("https://api.resend.com/emails", {
+        fetchT("https://api.resend.com/emails", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +87,7 @@ export async function POST(req: NextRequest) {
           }),
         }),
         // Confirmation to candidate
-        fetch("https://api.resend.com/emails", {
+        fetchT("https://api.resend.com/emails", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -187,9 +187,9 @@ export default function AProposPage() {
               NN
             </span>
           </div>
-          <h3 className="font-playfair text-2xl text-text font-light mb-1">
+          <h2 className="font-playfair text-2xl text-text font-light mb-1">
             Nicola Nortier
-          </h3>
+          </h2>
           <p className="font-outfit text-[12px] text-red uppercase tracking-[3px] mb-6">
             Fondateur & Directeur
           </p>

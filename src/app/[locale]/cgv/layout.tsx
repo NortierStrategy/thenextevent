@@ -24,6 +24,17 @@ export async function generateMetadata({
       },
     },
     robots: { index: true, follow: true },
+    openGraph: {
+      title: isEn
+        ? "Terms & Conditions — The Next Event"
+        : "Conditions Générales de Vente — The Next Event",
+      description: isEn
+        ? "Terms & conditions of The Next Event."
+        : "CGV de The Next Event.",
+      url: `${baseUrl}/${locale}/cgv`,
+      siteName: "The Next Event",
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: "The Next Event" }],
+    },
   };
 }
 

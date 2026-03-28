@@ -79,14 +79,29 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
     setStep(2);
   };
 
+  const resetForm = () => {
+    setFormData({ name: "", email: "", phone: "", company: "", event_type: "", event_date: "", location: "", budget: "", message: "" });
+    setStatus("idle");
+    setErrorMsg("");
+    setDirection(-1);
+    setStep(1);
+  };
+
   const goToStep1 = () => {
     setDirection(-1);
     setStep(1);
   };
 
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.email.trim()) return;
+    if (!EMAIL_RE.test(formData.email)) {
+      setErrorMsg(locale === "en" ? "Invalid email address" : "Adresse email invalide");
+      setStatus("error");
+      return;
+    }
 
     setStatus("sending");
     setErrorMsg("");
@@ -294,6 +309,13 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                   </svg>
                   Nous appeler : 06 60 38 80 27
                 </a>
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="block mt-4 font-outfit text-[11px] text-text-muted hover:text-text underline underline-offset-2 transition-colors duration-200 mx-auto"
+                >
+                  {locale === "en" ? "Submit another request" : "Nouvelle demande"}
+                </button>
               </motion.div>
             ) : (
               /* ── Wizard form ── */

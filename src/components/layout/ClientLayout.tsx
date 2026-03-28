@@ -1,6 +1,5 @@
 "use client";
 
-import { MotionConfig } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhatsApp from "@/components/sections/WhatsApp";
@@ -20,7 +19,7 @@ export default function ClientLayout({
   locale,
 }: ClientLayoutProps) {
   return (
-    <MotionConfig reducedMotion="user">
+    <>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-red focus:text-white focus:rounded-[2px] focus:font-outfit focus:text-sm focus:font-semibold focus:uppercase focus:tracking-[2px] focus:outline-none"
@@ -33,6 +32,6 @@ export default function ClientLayout({
       <WhatsApp dict={dict} />
       <Analytics />
       <CookieBanner />
-    </MotionConfig>
+    </>
   );
 }

@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { checkCsrf, escapeHtml, checkRateLimit, getClientIp } from "@/lib/api/security";
 
+/** Fetch with 10s abort timeout */
+function fetchT(url: string, init: RequestInit, ms = 10_000): Promise<Response> {
+  const c = new AbortController();
+  const t = setTimeout(() => c.abort(), ms);
+  return fetch(url, { ...init, signal: c.signal }).finally(() => clearTimeout(t));
+}
+
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN || "";
 const MAKE_WEBHOOK_URL = process.env.MAKE_WEBHOOK_URL || "";
@@ -29,7 +36,7 @@ async function sendEmails(data: ContactData): Promise<void> {
   const firstName = escapeHtml(data.name.split(" ")[0]);
 
   // Notification to Nicola
-  await fetch("https://api.resend.com/emails", {
+  await fetchT("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -58,7 +65,7 @@ async function sendEmails(data: ContactData): Promise<void> {
   });
 
   // Confirmation to prospect
-  await fetch("https://api.resend.com/emails", {
+  await fetchT("https://api.resend.com/emails", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -99,7 +106,7 @@ async function pushToHubSpot(data: ContactData): Promise<void> {
     },
   };
 
-  const hubspotResponse = await fetch(
+  const hubspotResponse = await fetchT(
     "https://api.hubapi.com/crm/v3/objects/contacts",
     {
       method: "POST",
@@ -120,7 +127,7 @@ async function pushToHubSpot(data: ContactData): Promise<void> {
 async function forwardToMake(data: ContactData): Promise<void> {
   if (!MAKE_WEBHOOK_URL) return;
 
-  await fetch(MAKE_WEBHOOK_URL, {
+  await fetchT(MAKE_WEBHOOK_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

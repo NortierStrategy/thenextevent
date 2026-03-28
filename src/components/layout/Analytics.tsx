@@ -34,11 +34,13 @@ export default function Analytics() {
     full: false,
   });
 
-  // Check consent from localStorage
+  // Check consent from localStorage + listen for consent changes
   useEffect(() => {
     if (!hasAny) return;
-    const stored = localStorage.getItem(CONSENT_KEY);
-    setHasConsent(stored === "accepted");
+    const check = () => setHasConsent(localStorage.getItem(CONSENT_KEY) === "accepted");
+    check();
+    window.addEventListener("tne-consent-change", check);
+    return () => window.removeEventListener("tne-consent-change", check);
   }, [hasAny]);
 
   // GTM noscript iframe — only after consent

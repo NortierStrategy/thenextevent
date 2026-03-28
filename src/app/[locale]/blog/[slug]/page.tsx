@@ -47,7 +47,7 @@ export async function generateMetadata({
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
-      images: post.image ? [{ url: `${baseUrl}${post.image}` }] : [],
+      images: post.image ? [{ url: `${baseUrl}${post.image}`, width: 1200, height: 630, alt: title }] : [],
     },
   };
 }
