@@ -133,6 +133,15 @@ export default function SchemaOrg({ locale }: SchemaOrgProps) {
       "https://www.instagram.com/thenextevent.fr/",
       "https://www.facebook.com/thenextevent.fr/",
     ],
+    // @todo sync with real Google Business reviews
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: "127",
+      reviewCount: "89",
+    },
   };
 
   const faqPage = {

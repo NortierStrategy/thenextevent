@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, type Locale } from "@/lib/i18n";
+
+export const revalidate = 86400;
+
 import { getAllServices, getServiceBySlug, getRelatedServices } from "@/data/services";
 import { getPostBySlug } from "@/lib/blog";
 import ServiceArticle from "@/components/services/ServiceArticle";

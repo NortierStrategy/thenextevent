@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, type Locale } from "@/lib/i18n";
+
+export const revalidate = 86400;
+
 import {
   getAllRealisations,
   getRealisationBySlug,

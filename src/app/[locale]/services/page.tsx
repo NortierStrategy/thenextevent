@@ -2,6 +2,8 @@ import { getDictionary, type Locale } from "@/lib/i18n";
 import { getAllServices } from "@/data/services";
 import ServicesListing from "@/components/services/ServicesListing";
 
+export const revalidate = 86400;
+
 export default async function ServicesPage({
   params,
 }: {

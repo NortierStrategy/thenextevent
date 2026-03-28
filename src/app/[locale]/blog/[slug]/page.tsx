@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, type Locale } from "@/lib/i18n";
+
+export const revalidate = 3600;
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog";
 import BlogArticle from "@/components/blog/BlogArticle";
 

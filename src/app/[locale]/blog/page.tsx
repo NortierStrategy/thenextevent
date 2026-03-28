@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { getAllPosts } from "@/lib/blog";
 import BlogListing from "@/components/blog/BlogListing";
 
+export const revalidate = 3600;
+
 export async function generateMetadata({
   params,
 }: {
