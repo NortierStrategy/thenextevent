@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { staggerContainer, fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import { trackEvent } from "@/components/layout/Analytics";
 import { getAllRealisations } from "@/data/realisations";
 import type { Dictionary } from "@/lib/i18n";
@@ -36,17 +35,11 @@ export default function Realisations({ dict, locale }: RealisationsProps) {
         </span>
       </div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((item, i) => {
           const data = isEN ? item.en : item.fr;
           return (
-            <motion.div key={item.slug} variants={fadeInUp}>
+            <InView key={item.slug}>
               <Link
                 href={`/${locale}/realisations/${item.slug}`}
                 onClick={() => trackEvent("realisation_click", { project: data.title })}
@@ -72,10 +65,10 @@ export default function Realisations({ dict, locale }: RealisationsProps) {
                   </h3>
                 </div>
               </Link>
-            </motion.div>
+            </InView>
           );
         })}
-      </motion.div>
+      </div>
 
       {/* CTA */}
       <div className="text-center mt-10">

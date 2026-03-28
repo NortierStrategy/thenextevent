@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { staggerContainer, fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -24,17 +23,10 @@ export default function Metiers({ dict, locale = "fr" }: MetiersProps) {
         italicWord={dict.metiers.italicWord}
       />
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {dict.metiers.items.map((metier) => (
-          <motion.div
+          <InView
             key={metier.title}
-            variants={fadeInUp}
             className="group p-7 border border-red/[0.08] rounded-[4px] hover:border-red/20 hover:bg-red/[0.03] transition-all duration-300 flex flex-col"
           >
             <span className="text-red text-2xl block mb-4">{metier.icon}</span>
@@ -61,9 +53,9 @@ export default function Metiers({ dict, locale = "fr" }: MetiersProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
-          </motion.div>
+          </InView>
         ))}
-      </motion.div>
+      </div>
     </Section>
   );
 }

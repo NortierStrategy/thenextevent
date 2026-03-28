@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { fadeInUp, staggerContainer } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -134,15 +134,9 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
     <Section id="contact" variant="dark" compact>
       <SectionTitle label={c.label} title={c.title} italicWord={c.italicWord} />
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12"
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-12">
         {/* ── Info column ── */}
-        <motion.div variants={fadeInUp}>
+        <InView>
           <p className="font-outfit text-[14px] text-text-muted font-light leading-[1.8] mb-10">
             {c.subtitle}
           </p>
@@ -238,10 +232,10 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
               />
             </svg>
           </a>
-        </motion.div>
+        </InView>
 
         {/* ── Form column ── */}
-        <motion.div variants={fadeInUp}>
+        <InView>
           <AnimatePresence mode="wait">
             {status === "sent" ? (
               /* ── Success state ── */
@@ -699,8 +693,8 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
               </motion.div>
             )}
           </AnimatePresence>
-        </motion.div>
-      </motion.div>
+        </InView>
+      </div>
     </Section>
   );
 }

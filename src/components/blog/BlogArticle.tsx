@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 const BLUR_DATA_URL =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMUUxRTFFIi8+PC9zdmc+";
 import { fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import type { BlogPost } from "@/lib/blog";
 import type { Dictionary } from "@/lib/i18n";
 import { getServiceBySlug } from "@/data/services";
@@ -257,11 +258,7 @@ export default function BlogArticle({
           </motion.div>
 
           {/* CTA */}
-          <motion.div
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
+          <InView
             className="border border-red/[0.08] rounded-[4px] p-8 text-center mb-16"
           >
             <h3 className="font-playfair text-xl text-text font-light mb-3">
@@ -278,15 +275,11 @@ export default function BlogArticle({
             >
               {dict.nav.cta}
             </Link>
-          </motion.div>
+          </InView>
 
           {/* Related services */}
           {post.relatedServices && post.relatedServices.length > 0 && (
-            <motion.div
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+            <InView
               className="mb-10"
             >
               <h3 className="font-outfit text-[11px] font-semibold uppercase tracking-[4px] text-text-muted mb-6">
@@ -316,16 +309,12 @@ export default function BlogArticle({
                   );
                 })}
               </div>
-            </motion.div>
+            </InView>
           )}
 
           {/* Related posts */}
           {relatedPosts.length > 0 && (
-            <motion.div
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
+            <InView
             >
               <h3 className="font-outfit text-[11px] font-semibold uppercase tracking-[4px] text-text-muted mb-6">
                 {isEN ? "Related articles" : "Articles liés"}
@@ -359,7 +348,7 @@ export default function BlogArticle({
                   </Link>
                 ))}
               </div>
-            </motion.div>
+            </InView>
           )}
         </div>
       </article>

@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
 
@@ -27,13 +26,7 @@ export default function Expertises({ dict, locale }: ExpertisesProps) {
         italicWord={dict.expertises.italicWord}
       />
 
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8"
-      >
+      <InView className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8">
         {/* Tabs */}
         <div className="space-y-2">
           {services.map((s, i) => (
@@ -101,7 +94,7 @@ export default function Expertises({ dict, locale }: ExpertisesProps) {
             </svg>
           </Link>
         </div>
-      </motion.div>
+      </InView>
 
       {/* CTA */}
       <div className="text-center mt-10">

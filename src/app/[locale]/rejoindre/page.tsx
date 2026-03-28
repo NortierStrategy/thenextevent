@@ -1,10 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import RecruitForm from "@/components/forms/RecruitForm";
-import { fadeInUp, staggerContainer } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 
 const advantages = [
   {
@@ -34,11 +33,7 @@ export default function RejoindrePage() {
     <>
       <section className="relative pt-40 pb-20 px-8 bg-black">
         <div className="max-w-[1200px] mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="hero-anim hero-anim-1">
             <h1 className="font-playfair text-[clamp(36px,5vw,64px)] font-light text-text leading-tight mb-6">
               Rejoignez <em className="text-gradient-red">l&apos;élite</em>
             </h1>
@@ -47,7 +42,7 @@ export default function RejoindrePage() {
               d&apos;exception pour participer aux événements de luxe les plus
               prestigieux à Paris et à l&apos;international.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -57,17 +52,10 @@ export default function RejoindrePage() {
           title="Pourquoi nous rejoindre"
           italicWord="rejoindre"
         />
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {advantages.map((item) => (
-            <motion.div
+            <InView
               key={item.title}
-              variants={fadeInUp}
               className="p-7 border border-red/[0.08] rounded-[4px] hover:border-red/20 transition-all duration-300"
             >
               <h3 className="font-playfair text-[19px] text-text font-normal mb-3">
@@ -76,9 +64,9 @@ export default function RejoindrePage() {
               <p className="font-outfit text-[13px] text-text-muted font-light leading-[1.8]">
                 {item.description}
               </p>
-            </motion.div>
+            </InView>
           ))}
-        </motion.div>
+        </div>
       </Section>
 
       <Section>
