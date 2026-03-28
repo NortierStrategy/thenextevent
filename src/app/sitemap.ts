@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
+import { getAllRealisations } from "@/data/realisations";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://thenextevent.fr";
@@ -39,6 +40,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       entries.push({
         url: `${baseUrl}/${locale}/blog/${post.slug}`,
         lastModified: new Date(post.date),
+        changeFrequency: "monthly",
+        priority: 0.7,
+      });
+    }
+  }
+
+  // Realisations detail pages
+  const realisationItems = getAllRealisations();
+  for (const locale of locales) {
+    for (const item of realisationItems) {
+      entries.push({
+        url: `${baseUrl}/${locale}/realisations/${item.slug}`,
+        lastModified: lastDeploy,
         changeFrequency: "monthly",
         priority: 0.7,
       });

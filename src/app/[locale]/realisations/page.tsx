@@ -1,4 +1,6 @@
-import { redirect } from "next/navigation";
+import { getDictionary, type Locale } from "@/lib/i18n";
+import { getAllRealisations } from "@/data/realisations";
+import RealisationsListing from "@/components/realisations/RealisationsListing";
 
 export default async function RealisationsPage({
   params,
@@ -6,5 +8,8 @@ export default async function RealisationsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  redirect(`/${locale}/#realisations`);
+  const dict = await getDictionary(locale as Locale);
+  const items = getAllRealisations();
+
+  return <RealisationsListing items={items} dict={dict} locale={locale} />;
 }

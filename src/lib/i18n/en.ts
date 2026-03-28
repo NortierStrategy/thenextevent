@@ -2,7 +2,7 @@ const en = {
   nav: {
     links: [
       { label: "Services", href: "/#services" },
-      { label: "Portfolio", href: "/#realisations" },
+      { label: "Portfolio", href: "/realisations" },
       { label: "Our team", href: "/#metiers" },
       { label: "Contact", href: "/#contact" },
       { label: "Blog", href: "/blog" },
@@ -69,6 +69,7 @@ const en = {
     title: "Remarkable achievements",
     italicWord: "achievements",
     counter: "15+ exceptional projects",
+    cta: "View all projects",
     items: [
       { title: "Roadshow Porsche", category: "Automobile", location: "France", image: "/images/projet/1.jpg" },
       { title: "Qatar Airways", category: "Aviation", location: "Paris La Défense", image: "/images/projet/2.jpg" },

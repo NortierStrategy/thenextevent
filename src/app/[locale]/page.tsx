@@ -27,7 +27,7 @@ export default async function Home({
       <Stats dict={dict} />
       <Expertises dict={dict} locale={locale} />
       <Clients dict={dict} />
-      <Realisations dict={dict} />
+      <Realisations dict={dict} locale={locale} />
       <Metiers dict={dict} locale={locale} />
       <Testimonials dict={dict} />
       <Contact dict={dict} locale={locale} />
