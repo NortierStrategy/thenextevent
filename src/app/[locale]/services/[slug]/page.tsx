@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { getAllServices, getServiceBySlug, getRelatedServices } from "@/data/services";
+import { getPostBySlug } from "@/lib/blog";
 import ServiceArticle from "@/components/services/ServiceArticle";
 
 export async function generateStaticParams() {
@@ -64,6 +65,9 @@ export default async function ServicePage({
 
   const dict = await getDictionary(locale as Locale);
   const related = getRelatedServices(slug);
+  const relatedPosts = (service.relatedBlogSlugs || [])
+    .map((s) => getPostBySlug(s))
+    .filter((p): p is NonNullable<typeof p> => !!p);
 
-  return <ServiceArticle service={service} related={related} dict={dict} locale={locale} />;
+  return <ServiceArticle service={service} related={related} relatedPosts={relatedPosts} dict={dict} locale={locale} />;
 }

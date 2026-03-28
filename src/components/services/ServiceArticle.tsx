@@ -1,18 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import InView from "@/components/ui/InView";
 import type { Service } from "@/data/services";
 import type { Dictionary } from "@/lib/i18n";
+import type { BlogPost } from "@/lib/blog";
 
 interface ServiceArticleProps {
   service: Service;
   related: Service[];
+  relatedPosts: BlogPost[];
   dict: Dictionary;
   locale: string;
 }
 
-export default function ServiceArticle({ service, related, dict, locale }: ServiceArticleProps) {
+export default function ServiceArticle({ service, related, relatedPosts, dict, locale }: ServiceArticleProps) {
   const isEN = locale === "en";
   const data = isEN ? service.en : service.fr;
   const baseUrl = "https://thenextevent.fr";
@@ -139,6 +142,46 @@ export default function ServiceArticle({ service, related, dict, locale }: Servi
             </Link>
           </div>
         </InView>
+
+        {/* Related blog articles */}
+        {relatedPosts.length > 0 && (
+          <section className="max-w-[1000px] mx-auto px-6 mb-16">
+            <InView>
+              <h2 className="font-outfit text-[10px] font-semibold uppercase tracking-[4px] text-text-muted mb-8 text-center">
+                {isEN ? "Related Articles" : "Articles Associ\u00e9s"}
+              </h2>
+            </InView>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {relatedPosts.map((post) => (
+                <InView key={post.slug}>
+                  <Link
+                    href={`/${locale}/blog/${post.slug}`}
+                    className="group block border border-red/[0.08] rounded-[4px] overflow-hidden hover:border-red/20 transition-colors duration-500"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden bg-dark">
+                      <Image
+                        src={post.image}
+                        alt={isEN ? post.titleEN : post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <span className="font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-red mb-2 block">
+                        {post.category}
+                      </span>
+                      <h3 className="font-playfair text-[16px] text-text font-normal group-hover:text-red/90 transition-colors duration-300 leading-snug">
+                        {isEN ? post.titleEN : post.title}
+                      </h3>
+                      <span className="font-outfit text-[11px] text-text-muted mt-2 block">{post.date}</span>
+                    </div>
+                  </Link>
+                </InView>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Related services */}
         {related.length > 0 && (

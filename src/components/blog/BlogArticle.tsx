@@ -9,6 +9,7 @@ const BLUR_DATA_URL =
 import { fadeInUp } from "@/lib/animations";
 import type { BlogPost } from "@/lib/blog";
 import type { Dictionary } from "@/lib/i18n";
+import { getServiceBySlug } from "@/data/services";
 
 interface BlogArticleProps {
   post: BlogPost;
@@ -278,6 +279,45 @@ export default function BlogArticle({
               {dict.nav.cta}
             </Link>
           </motion.div>
+
+          {/* Related services */}
+          {post.relatedServices && post.relatedServices.length > 0 && (
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="mb-10"
+            >
+              <h3 className="font-outfit text-[11px] font-semibold uppercase tracking-[4px] text-text-muted mb-6">
+                {isEN ? "Related services" : "Services associ\u00e9s"}
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {post.relatedServices.map((slug) => {
+                  const svc = getServiceBySlug(slug);
+                  if (!svc) return null;
+                  const svcData = isEN ? svc.en : svc.fr;
+                  return (
+                    <Link
+                      key={slug}
+                      href={`/${locale}/services/${slug}`}
+                      className="group flex items-start gap-4 p-5 border border-red/[0.08] rounded-[4px] bg-medium hover:border-red/20 transition-colors duration-300"
+                    >
+                      <span className="text-xl flex-shrink-0 mt-0.5">{svc.icon}</span>
+                      <div>
+                        <h4 className="font-playfair text-[16px] text-text font-normal mb-1 group-hover:text-red/90 transition-colors duration-300">
+                          {svcData.title}
+                        </h4>
+                        <p className="font-outfit text-[12px] text-text-muted font-light leading-[1.6]">
+                          {svcData.heroSubtitle}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
 
           {/* Related posts */}
           {relatedPosts.length > 0 && (

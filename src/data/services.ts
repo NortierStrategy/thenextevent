@@ -2,6 +2,7 @@ export interface Service {
   slug: string;
   icon: string;
   relatedSlugs: string[];
+  relatedBlogSlugs?: string[];
   fr: {
     title: string;
     metaDescription: string;
@@ -25,6 +26,7 @@ export const services: Service[] = [
     slug: "regisseur-evenementiel",
     icon: "\u25C8",
     relatedSlugs: ["logistique-luxe", "coordination-technique"],
+    relatedBlogSlugs: ["regisseur-evenementiel-paris-guide", "coulisses-fashion-week-paris-regisseur"],
     fr: {
       title: "R\u00e9gisseurs \u00c9v\u00e9nementiels",
       metaDescription: "R\u00e9gisseurs \u00e9v\u00e9nementiels de luxe \u00e0 Paris. 300+ profils v\u00e9rifi\u00e9s, mobilisation sous 48h, service gants blancs pour d\u00e9fil\u00e9s, galas et lancements.",
@@ -70,6 +72,7 @@ export const services: Service[] = [
     slug: "logistique-luxe",
     icon: "\u2726",
     relatedSlugs: ["regisseur-evenementiel", "staffing-evenementiel"],
+    relatedBlogSlugs: ["tendances-evenementiel-luxe-2026"],
     fr: {
       title: "Logistique Haut de Gamme",
       metaDescription: "Logistique \u00e9v\u00e9nementielle de luxe \u00e0 Paris. Transport s\u00e9curis\u00e9, montage premium, coordination fournisseurs, service gants blancs z\u00e9ro incident.",
@@ -113,6 +116,7 @@ export const services: Service[] = [
     slug: "coordination-technique",
     icon: "\u2699",
     relatedSlugs: ["regisseur-evenementiel", "logistique-luxe"],
+    relatedBlogSlugs: ["coulisses-fashion-week-paris-regisseur", "tendances-evenementiel-luxe-2026"],
     fr: {
       title: "Coordination Technique",
       metaDescription: "Coordination technique \u00e9v\u00e9nementielle \u00e0 Paris. Direction de production cl\u00e9 en main, pilotage son/lumi\u00e8re/vid\u00e9o, 18+ ans d\u2019expertise multi-format.",
@@ -156,6 +160,7 @@ export const services: Service[] = [
     slug: "staffing-evenementiel",
     icon: "\u272A",
     relatedSlugs: ["regisseur-evenementiel", "logistique-luxe"],
+    relatedBlogSlugs: ["regisseur-evenementiel-paris-guide"],
     fr: {
       title: "Staffing \u00c9v\u00e9nementiel",
       metaDescription: "Staffing \u00e9v\u00e9nementiel premium \u00e0 Paris. H\u00f4tes et h\u00f4tesses de luxe, accueil VIP, casting sur-mesure pour \u00e9v\u00e9nements haut de gamme.",

@@ -16,6 +16,7 @@ export interface BlogPost {
   keywords: string[];
   author: string;
   content: string;
+  relatedServices?: string[];
 }
 
 export function getAllPosts(): BlogPost[] {
@@ -38,6 +39,7 @@ export function getAllPosts(): BlogPost[] {
       keywords: data.keywords || [],
       author: data.author || "The Next Event",
       content,
+      relatedServices: data.relatedServices || [],
     } as BlogPost;
   });
 
