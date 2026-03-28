@@ -108,7 +108,8 @@ export default function RecruitForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Nom complet *"
-          placeholder="Prénom et nom"
+          placeholder="Pr\u00e9nom et nom"
+          autoComplete="name"
           {...register("nom")}
           error={errors.nom?.message}
         />
@@ -116,19 +117,22 @@ export default function RecruitForm() {
           label="Email *"
           type="email"
           placeholder="votre@email.com"
+          autoComplete="email"
           {...register("email")}
           error={errors.email?.message}
         />
         <Input
-          label="Téléphone *"
+          label="T\u00e9l\u00e9phone *"
           type="tel"
           placeholder="+33 6 00 00 00 00"
+          autoComplete="tel"
           {...register("telephone")}
           error={errors.telephone?.message}
         />
         <Input
           label="Ville *"
-          placeholder="Votre ville de résidence"
+          placeholder="Votre ville de r\u00e9sidence"
+          autoComplete="address-level2"
           {...register("ville")}
           error={errors.ville?.message}
         />

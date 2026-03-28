@@ -5,12 +5,10 @@ import Link from "next/link";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import InView from "@/components/ui/InView";
+import ImageSkeleton from "@/components/ui/ImageSkeleton";
 import { trackEvent } from "@/components/layout/Analytics";
 import { getAllRealisations } from "@/data/realisations";
 import type { Dictionary } from "@/lib/i18n";
-
-const BLUR_DATA_URL =
-  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMUUxRTFFIi8+PC9zdmc+";
 
 interface RealisationsProps {
   dict: Dictionary;
@@ -45,14 +43,13 @@ export default function Realisations({ dict, locale }: RealisationsProps) {
                 onClick={() => trackEvent("realisation_click", { project: data.title })}
                 className="group relative aspect-[4/3] rounded-[4px] border border-red/[0.08] overflow-hidden block cursor-pointer hover:border-red/25 transition-all duration-500 hover:-translate-y-[3px]"
               >
+                <ImageSkeleton />
                 <Image
                   src={item.image}
                   alt={data.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105 relative z-[1]"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  placeholder="blur"
-                  blurDataURL={BLUR_DATA_URL}
                   {...(i < 3 ? { priority: true } : {})}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-500" />

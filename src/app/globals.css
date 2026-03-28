@@ -117,6 +117,16 @@ button:focus-visible,
 .hero-anim-5 { animation-delay: 0.6s; }
 .hero-anim-6 { animation-delay: 1.0s; }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(245,240,235,0.04) 50%, transparent 100%);
+  animation: shimmer 1.5s ease infinite;
+}
+
 @keyframes ticker {
   0% { transform: translateX(0); }
   100% { transform: translateX(-33.333%); }

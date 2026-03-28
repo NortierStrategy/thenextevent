@@ -503,6 +503,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             placeholder={c.form.namePlaceholder}
                             value={formData.name}
                             onChange={(v) => updateField("name", v)}
+                            autoComplete="name"
                             required
                           />
                           <FormField
@@ -511,6 +512,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             type="email"
                             placeholder={c.form.emailPlaceholder}
                             value={formData.email}
+                            autoComplete="email"
                             onChange={(v) => updateField("email", v)}
                             required
                           />
@@ -524,6 +526,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             type="tel"
                             placeholder={c.form.phonePlaceholder}
                             value={formData.phone}
+                            autoComplete="tel"
                             onChange={(v) => updateField("phone", v)}
                           />
                           <FormField
@@ -532,6 +535,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             placeholder={c.form.companyPlaceholder}
                             value={formData.company}
                             onChange={(v) => updateField("company", v)}
+                            autoComplete="organization"
                           />
                         </div>
 
@@ -708,6 +712,7 @@ function FormField({
   required = false,
   value,
   onChange,
+  autoComplete,
 }: {
   name: string;
   label: string;
@@ -716,6 +721,7 @@ function FormField({
   required?: boolean;
   value: string;
   onChange: (value: string) => void;
+  autoComplete?: string;
 }) {
   const fieldId = `field-${name}`;
   return (
@@ -730,6 +736,7 @@ function FormField({
         placeholder={placeholder}
         required={required}
         aria-required={required}
+        autoComplete={autoComplete}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-base text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 focus:ring-2 focus:ring-red/20 transition-colors duration-300"
