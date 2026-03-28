@@ -35,6 +35,12 @@ export async function generateMetadata({
       siteName: "The Next Event",
       images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: "The Next Event" }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: isEn ? "Legal Notice — The Next Event" : "Mentions Légales — The Next Event",
+      description: isEn ? "Legal notice of The Next Event." : "Mentions légales de The Next Event.",
+      images: [`${baseUrl}/images/og-image.jpg`],
+    },
   };
 }
 

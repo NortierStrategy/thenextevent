@@ -31,6 +31,14 @@ export async function generateMetadata({
       url: `${baseUrl}/${locale}/realisations`,
       images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: isEn ? "Our Event Portfolio" : "Nos Réalisations Événementielles",
+      description: isEn
+        ? "500+ luxury events produced since 2007. Fashion shows, galas, launches, summits."
+        : "500+ événements de luxe produits depuis 2007. Défilés, galas, lancements, sommets.",
+      images: [`${baseUrl}/images/og-image.jpg`],
+    },
   };
 }
 

@@ -33,6 +33,14 @@ export async function generateMetadata({
       url: `${baseUrl}/${locale}/a-propos`,
       images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: isEn ? "About The Next Event — Since 2007" : "À Propos de The Next Event — Depuis 2007",
+      description: isEn
+        ? "Elite event management agency founded in Paris in 2007. Porsche, Dior, Google, LinkedIn trust us."
+        : "Agence de régisseurs événementiels de prestige fondée à Paris en 2007. Porsche, Dior, Google, LinkedIn nous font confiance.",
+      images: [`${baseUrl}/images/og-image.jpg`],
+    },
   };
 }
 

@@ -31,6 +31,14 @@ export async function generateMetadata({
       url: `${baseUrl}/${locale}/contact`,
       images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: isEn ? "Contact The Next Event" : "Contacter The Next Event",
+      description: isEn
+        ? "Get a custom quote within 24h. Call +33 6 60 38 80 27."
+        : "Obtenez un devis personnalisé sous 24h. Appelez le 06 60 38 80 27.",
+      images: [`${baseUrl}/images/og-image.jpg`],
+    },
   };
 }
 
