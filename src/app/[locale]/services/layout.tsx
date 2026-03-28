@@ -29,7 +29,7 @@ export async function generateMetadata({
         ? "300+ elite event managers deployed within 24h. White-glove service for luxury events."
         : "300+ régisseurs d'élite déployés en 24h. Service gants blancs pour événements de luxe.",
       url: `${baseUrl}/${locale}/services`,
-      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: isEn ? "The Next Event — Event Staffing Services" : "The Next Event — Services de Staffing Événementiel" }],
     },
     twitter: {
       card: "summary_large_image",

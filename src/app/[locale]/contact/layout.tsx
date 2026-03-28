@@ -29,7 +29,7 @@ export async function generateMetadata({
         ? "Get a custom quote within 24h. Call +33 6 60 38 80 27."
         : "Obtenez un devis personnalisé sous 24h. Appelez le 06 60 38 80 27.",
       url: `${baseUrl}/${locale}/contact`,
-      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: isEn ? "Contact The Next Event" : "Contacter The Next Event" }],
     },
     twitter: {
       card: "summary_large_image",

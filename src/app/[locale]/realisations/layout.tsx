@@ -29,7 +29,7 @@ export async function generateMetadata({
         ? "500+ luxury events produced since 2007. Fashion shows, galas, launches, summits."
         : "500+ événements de luxe produits depuis 2007. Défilés, galas, lancements, sommets.",
       url: `${baseUrl}/${locale}/realisations`,
-      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: isEn ? "The Next Event — Event Portfolio" : "The Next Event — Portfolio Événementiel" }],
     },
     twitter: {
       card: "summary_large_image",

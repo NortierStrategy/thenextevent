@@ -31,7 +31,7 @@ export async function generateMetadata({
         ? "Join our network of premium event managers. Prestigious missions for luxury brands."
         : "Intégrez notre réseau de régisseurs premium. Missions prestigieuses pour les plus grandes marques de luxe.",
       url: `${baseUrl}/${locale}/rejoindre`,
-      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: isEn ? "Join The Next Event" : "Rejoindre The Next Event" }],
     },
     twitter: {
       card: "summary_large_image",

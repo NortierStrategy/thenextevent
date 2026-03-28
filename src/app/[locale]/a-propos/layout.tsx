@@ -31,7 +31,7 @@ export async function generateMetadata({
         ? "Elite event management agency founded in Paris in 2007. Porsche, Dior, Google, LinkedIn trust us."
         : "Agence de régisseurs événementiels de prestige fondée à Paris en 2007. Porsche, Dior, Google, LinkedIn nous font confiance.",
       url: `${baseUrl}/${locale}/a-propos`,
-      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630, alt: isEn ? "About The Next Event" : "À Propos de The Next Event" }],
     },
     twitter: {
       card: "summary_large_image",
