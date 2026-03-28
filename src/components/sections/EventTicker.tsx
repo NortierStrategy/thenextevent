@@ -21,10 +21,10 @@ export default function EventTicker() {
       >
         {tripled.map((item, i) => (
           <span key={`${item}-${i}`} className="shrink-0 mx-4">
-            <span className="font-outfit text-[11px] uppercase tracking-[4px] font-medium text-gold/60">
+            <span className="font-outfit text-[11px] uppercase tracking-[4px] font-medium text-gold">
               {item}
             </span>
-            <span className="font-outfit text-[11px] uppercase tracking-[4px] font-medium text-gold/30 mx-4">
+            <span className="font-outfit text-[11px] uppercase tracking-[4px] font-medium text-gold/50 mx-4">
               —
             </span>
           </span>

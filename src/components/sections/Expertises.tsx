@@ -67,14 +67,14 @@ export default function Expertises({ dict, locale }: ExpertisesProps) {
           <h3 className="font-playfair text-[28px] text-text font-normal mb-6">
             {service.title}
           </h3>
-          <p className="font-outfit text-[15px] text-text/70 font-light leading-[1.9] mb-8">
+          <p className="font-outfit text-[15px] text-text/80 font-light leading-[1.9] mb-8">
             {service.description}
           </p>
           {/* Bullet points */}
           {service.bullets && (
             <ul className="space-y-2 mb-8">
               {service.bullets.map((bullet: string) => (
-                <li key={bullet} className="flex items-start gap-3 font-outfit text-[13px] text-text/60 font-light">
+                <li key={bullet} className="flex items-start gap-3 font-outfit text-[13px] text-text/75 font-light">
                   <span className="text-red mt-0.5 text-[8px]">●</span>
                   {bullet}
                 </li>

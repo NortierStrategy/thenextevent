@@ -88,7 +88,7 @@ export async function generateMetadata({
     },
     robots: { index: true, follow: true },
     other: {
-      "theme-color": "#03084C",
+      "theme-color": "#0A0A0A",
     },
   };
 }

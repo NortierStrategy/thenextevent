@@ -51,7 +51,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
                 alt={`Logo ${name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ")}`}
                 width={w}
                 height={h}
-                className="opacity-30 hover:opacity-55 transition-opacity duration-500 select-none"
+                className="opacity-50 hover:opacity-70 transition-opacity duration-500 select-none"
                 style={{
                   filter: "brightness(0) invert(0.85)",
                   height: `${h}px`,

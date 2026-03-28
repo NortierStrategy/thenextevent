@@ -66,7 +66,7 @@ export default function Realisations({ dict }: RealisationsProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-500" />
             {/* Text */}
             <div className="relative z-10 h-full flex flex-col justify-end p-6">
-              <span className="font-outfit text-[9px] font-semibold uppercase tracking-[4px] text-text/60 mb-2">
+              <span className="font-outfit text-[9px] font-semibold uppercase tracking-[4px] text-text/80 mb-2">
                 {item.category} &mdash; {item.location}
               </span>
               <h3 className="font-playfair text-[18px] text-text font-normal">

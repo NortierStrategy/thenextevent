@@ -76,7 +76,7 @@ button:focus-visible,
     text-wrap: balance;
   }
   .text-gradient-red {
-    background: linear-gradient(135deg, var(--red), var(--red-light));
+    background: linear-gradient(135deg, #CC2E3A, #DC3848);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
