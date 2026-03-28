@@ -16,7 +16,7 @@ const en = {
     subtitle:
       "300+ elite stage managers. 500+ events per year. Mobilised within 48h. Porsche, Dior, Google have trusted us since 2007.",
     cta1: "View our portfolio",
-    cta2: "Get a proposal within 24h",
+    cta2: "PROPOSAL WITHIN 24H",
     urgencyBadge: "Q2 2026 Schedule — 73% of slots already booked",
     scroll: "Scroll",
   },

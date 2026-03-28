@@ -16,7 +16,7 @@ export default function EventTicker() {
   return (
     <div className="bg-dark border-y border-red/[0.06] py-3 overflow-hidden">
       <div
-        className="flex items-center whitespace-nowrap"
+        className="flex items-center whitespace-nowrap ticker-scroll"
         style={{ animation: "ticker 30s linear infinite" }}
       >
         {tripled.map((item, i) => (

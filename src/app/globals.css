@@ -161,4 +161,9 @@ button:focus-visible,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Preserve slow decorative tickers even with reduced motion */
+  .ticker-scroll {
+    animation-duration: inherit !important;
+    animation-iteration-count: infinite !important;
+  }
 }

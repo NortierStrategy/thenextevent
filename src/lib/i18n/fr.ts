@@ -16,7 +16,7 @@ const fr = {
     subtitle:
       "300+ régisseurs d'élite. 500+ événements par an. Mobilisation sous 48h. Porsche, Dior, Google nous font confiance depuis 2007.",
     cta1: "Voir nos réalisations",
-    cta2: "Recevoir une proposition sous 24h",
+    cta2: "PROPOSITION SOUS 24H",
     urgencyBadge: "Planning Q2 2026 — 73% des créneaux déjà réservés",
     scroll: "Scroll",
   },
