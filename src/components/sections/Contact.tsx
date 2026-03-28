@@ -169,7 +169,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
               },
             ].map((item) => (
               <div key={item.label}>
-                <span className="font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted block mb-1">
+                <span className="font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted block mb-1">
                   {item.label}
                 </span>
                 {item.href ? (
@@ -381,7 +381,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                       >
                         {/* Event type cards */}
                         <fieldset className="space-y-3 border-0 p-0 m-0">
-                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <legend className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.eventType}
                           </legend>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -421,7 +421,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
 
                         {/* Date */}
                         <div className="space-y-2">
-                          <label className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <label className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.date}
                           </label>
                           <input
@@ -436,7 +436,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
 
                         {/* Location */}
                         <fieldset className="space-y-3 border-0 p-0 m-0">
-                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <legend className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
                             {locale === "en" ? "Location" : "Lieu"}
                           </legend>
                           <div className="flex flex-wrap gap-2.5">
@@ -543,7 +543,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
 
                         {/* Budget */}
                         <fieldset className="space-y-3 border-0 p-0 m-0">
-                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <legend className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.budget}
                           </legend>
                           <div className="flex flex-wrap gap-2.5">
@@ -576,7 +576,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
 
                         {/* Message */}
                         <div className="space-y-2">
-                          <label className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <label className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.message}
                           </label>
                           <textarea
@@ -726,7 +726,7 @@ function FormField({
   const fieldId = `field-${name}`;
   return (
     <div className="space-y-2">
-      <label htmlFor={fieldId} className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+      <label htmlFor={fieldId} className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
         {label}
       </label>
       <input

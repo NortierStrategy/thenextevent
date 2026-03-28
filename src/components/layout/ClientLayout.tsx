@@ -29,7 +29,7 @@ export default function ClientLayout({
       <Header dict={dict} locale={locale} />
       <main id="main-content">{children}</main>
       <Footer dict={dict} locale={locale} />
-      <WhatsApp dict={dict} />
+      <WhatsApp dict={dict} locale={locale} />
       <Analytics />
       <CookieBanner />
     </>

@@ -14,7 +14,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const errorId = error && textareaId ? `${textareaId}-error` : undefined;
     return (
       <div className="space-y-2">
-        <label htmlFor={textareaId} className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+        <label htmlFor={textareaId} className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
           {label}
         </label>
         <textarea

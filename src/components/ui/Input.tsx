@@ -13,7 +13,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const errorId = error && inputId ? `${inputId}-error` : undefined;
     return (
       <div className="space-y-2">
-        <label htmlFor={inputId} className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
+        <label htmlFor={inputId} className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted">
           {label}
         </label>
         <input

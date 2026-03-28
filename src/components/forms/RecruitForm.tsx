@@ -150,7 +150,7 @@ export default function RecruitForm() {
       <div className="space-y-2">
         <label
           htmlFor="cv-upload"
-          className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted"
+          className="block font-outfit text-sm font-semibold uppercase tracking-[3px] text-text-muted"
         >
           CV (PDF, max 5 Mo)
         </label>

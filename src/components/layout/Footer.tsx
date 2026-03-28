@@ -38,7 +38,7 @@ export default function Footer({ dict, locale }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-outfit text-[13px] text-text hover:text-red transition-colors duration-300 font-light"
+                    className="font-outfit text-[13px] text-text hover:text-red transition-colors duration-300 font-light min-h-[44px] inline-flex items-center"
                   >
                     {link.label}
                   </Link>
@@ -47,7 +47,7 @@ export default function Footer({ dict, locale }: FooterProps) {
               <li>
                 <Link
                   href={`/${locale}/rejoindre`}
-                  className="font-outfit text-[13px] text-text hover:text-red transition-colors duration-300 font-light"
+                  className="font-outfit text-[13px] text-text hover:text-red transition-colors duration-300 font-light min-h-[44px] inline-flex items-center"
                 >
                   {locale === "en" ? "Join the team" : "Rejoindre l\u2019équipe"}
                 </Link>
@@ -64,7 +64,7 @@ export default function Footer({ dict, locale }: FooterProps) {
               <li>
                 <a
                   href={`tel:${dict.contact.phone.value.replace(/\s/g, "")}`}
-                  className="inline-flex items-center gap-2 hover:text-red transition-colors duration-300"
+                  className="inline-flex items-center gap-2 hover:text-red transition-colors duration-300 min-h-[44px]"
                   aria-label="Nous appeler"
                 >
                   <svg className="w-3.5 h-3.5 text-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -76,7 +76,7 @@ export default function Footer({ dict, locale }: FooterProps) {
               <li>
                 <a
                   href={`mailto:${dict.contact.email.value}`}
-                  className="hover:text-red transition-colors duration-300"
+                  className="hover:text-red transition-colors duration-300 min-h-[44px] inline-flex items-center"
                 >
                   {dict.contact.email.value}
                 </a>
@@ -95,14 +95,14 @@ export default function Footer({ dict, locale }: FooterProps) {
             <span className="text-text-muted/20">|</span>
             <Link
               href={`/${locale}/cgv`}
-              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
+              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light min-h-[44px] inline-flex items-center"
             >
               {locale === "en" ? "Terms & Conditions" : "CGV"}
             </Link>
             <span className="text-text-muted/20">|</span>
             <Link
               href={`/${locale}/mentions-legales`}
-              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light"
+              className="font-outfit text-[11px] text-text-muted/50 hover:text-text transition-colors duration-300 font-light min-h-[44px] inline-flex items-center"
             >
               {locale === "en" ? "Legal Notice" : "Mentions légales"}
             </Link>
@@ -119,7 +119,7 @@ export default function Footer({ dict, locale }: FooterProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`${social.label} (nouvel onglet)`}
-                className="font-outfit text-[11px] uppercase tracking-[2px] text-text hover:text-red transition-colors duration-300"
+                className="font-outfit text-[11px] uppercase tracking-[2px] text-text hover:text-red transition-colors duration-300 min-h-[44px] inline-flex items-center"
               >
                 {social.label}
               </a>
