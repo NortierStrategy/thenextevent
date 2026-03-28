@@ -179,9 +179,12 @@ button:focus-visible,
     scroll-behavior: auto !important;
   }
   /* Preserve slow decorative tickers even with reduced motion */
-  .ticker-events,
+  .ticker-events {
+    animation-duration: 35s !important;
+    animation-iteration-count: infinite !important;
+  }
   .ticker-clients {
-    animation-duration: inherit !important;
+    animation-duration: 45s !important;
     animation-iteration-count: infinite !important;
   }
 }
