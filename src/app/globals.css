@@ -125,6 +125,23 @@ button:focus-visible,
   100% { transform: translateX(-33.333%); }
 }
 
+/* Ticker speeds: visible on mobile, slow & elegant on desktop */
+.ticker-events {
+  animation: ticker 35s linear infinite;
+}
+.ticker-clients {
+  animation: ticker 45s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .ticker-events {
+    animation-duration: 70s;
+  }
+  .ticker-clients {
+    animation-duration: 90s;
+  }
+}
+
 @keyframes pulse-line {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 1; }
@@ -162,7 +179,8 @@ button:focus-visible,
     scroll-behavior: auto !important;
   }
   /* Preserve slow decorative tickers even with reduced motion */
-  .ticker-scroll {
+  .ticker-events,
+  .ticker-clients {
     animation-duration: inherit !important;
     animation-iteration-count: infinite !important;
   }

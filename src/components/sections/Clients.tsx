@@ -38,8 +38,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
 
         <div
-          className="flex items-center whitespace-nowrap ticker-scroll"
-          style={{ animation: "ticker 400s linear infinite" }}
+          className="flex items-center whitespace-nowrap ticker-clients"
         >
           {tripled.map(([name, w, h], i) => (
             <div
