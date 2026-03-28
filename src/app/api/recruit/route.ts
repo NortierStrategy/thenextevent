@@ -88,6 +88,14 @@ export async function POST(req: NextRequest) {
         );
       }
       const buffer = Buffer.from(await cvFile.arrayBuffer());
+      // Verify PDF magic bytes (%PDF-) to prevent MIME spoofing
+      const magic = buffer.subarray(0, 5).toString("ascii");
+      if (magic !== "%PDF-") {
+        return NextResponse.json(
+          { success: false, error: "Le fichier ne semble pas être un PDF valide." },
+          { status: 400 }
+        );
+      }
       cvAttachment = {
         filename: `CV_${data.nom.replace(/\s+/g, "_")}.pdf`,
         content: buffer.toString("base64"),
