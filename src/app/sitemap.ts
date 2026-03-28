@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
 import { getAllRealisations } from "@/data/realisations";
+import { getAllServices } from "@/data/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://thenextevent.fr";
@@ -42,6 +43,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: new Date(post.date),
         changeFrequency: "monthly",
         priority: 0.7,
+      });
+    }
+  }
+
+  // Services detail pages
+  const serviceItems = getAllServices();
+  for (const locale of locales) {
+    for (const item of serviceItems) {
+      entries.push({
+        url: `${baseUrl}/${locale}/services/${item.slug}`,
+        lastModified: lastDeploy,
+        changeFrequency: "monthly",
+        priority: 0.8,
       });
     }
   }

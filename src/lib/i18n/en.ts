@@ -1,7 +1,7 @@
 const en = {
   nav: {
     links: [
-      { label: "Services", href: "/#services" },
+      { label: "Services", href: "/services" },
       { label: "Portfolio", href: "/realisations" },
       { label: "Our team", href: "/#metiers" },
       { label: "Contact", href: "/#contact" },

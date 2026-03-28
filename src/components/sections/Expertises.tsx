@@ -102,6 +102,19 @@ export default function Expertises({ dict, locale }: ExpertisesProps) {
           </Link>
         </div>
       </motion.div>
+
+      {/* CTA */}
+      <div className="text-center mt-10">
+        <Link
+          href={`/${locale || "fr"}/services`}
+          className="inline-flex items-center gap-2 px-6 py-3 font-outfit text-[11px] font-bold uppercase tracking-[3px] text-text border border-red/20 rounded-[2px] hover:border-red/40 hover:bg-red/5 transition-all duration-300"
+        >
+          {locale === "en" ? "Discover all services" : "D\u00e9couvrir tous nos services"}
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+      </div>
     </Section>
   );
 }
