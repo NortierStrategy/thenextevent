@@ -1,7 +1,11 @@
 import type { Viewport } from "next";
 import { Playfair_Display, Outfit } from "next/font/google";
 import { headers } from "next/headers";
+import { validateEnv } from "@/lib/env";
 import "./globals.css";
+
+// Validate env vars once at module load (server only)
+validateEnv();
 
 export const viewport: Viewport = {
   width: "device-width",

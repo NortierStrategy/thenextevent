@@ -200,29 +200,26 @@ export type TrackEventName =
  * Track custom events (form submissions, CTA clicks, etc.)
  * Safe to call anytime — silently no-ops if scripts aren't loaded.
  */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export function trackEvent(eventName: TrackEventName, params?: Record<string, string>) {
-  const w = typeof window !== "undefined" ? (window as any) : null;
-  if (!w) return;
+  if (typeof window === "undefined") return;
 
   // GA4
-  if (w.gtag) w.gtag("event", eventName, params);
+  if (window.gtag) window.gtag("event", eventName, params);
 
   // GTM dataLayer
-  if (w.dataLayer) w.dataLayer.push({ event: eventName, ...params });
+  if (window.dataLayer) window.dataLayer.push({ event: eventName, ...params });
 
   // Meta Pixel — standard "Lead" event vs custom
-  if (w.fbq) {
+  if (window.fbq) {
     if (eventName === "Lead") {
-      w.fbq("track", "Lead", params);
+      window.fbq("track", "Lead", params);
     } else {
-      w.fbq("trackCustom", eventName, params);
+      window.fbq("trackCustom", eventName, params);
     }
   }
 
   // LinkedIn — only track Lead conversions with proper conversion ID
-  if (w.lintrk && eventName === "Lead" && LINKEDIN_CONVERSION_ID) {
-    w.lintrk("track", { conversion_id: LINKEDIN_CONVERSION_ID });
+  if (window.lintrk && eventName === "Lead" && LINKEDIN_CONVERSION_ID) {
+    window.lintrk("track", { conversion_id: LINKEDIN_CONVERSION_ID });
   }
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
