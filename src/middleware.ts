@@ -12,7 +12,15 @@ export function middleware(request: NextRequest) {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return;
+  if (pathnameHasLocale) {
+    // Forward locale via header so root layout can set <html lang> at SSR
+    const detectedLocale = locales.find(
+      (l) => pathname.startsWith(`/${l}/`) || pathname === `/${l}`
+    ) || defaultLocale;
+    const response = NextResponse.next();
+    response.headers.set("x-locale", detectedLocale);
+    return response;
+  }
 
   // Skip for static files and API routes
   if (

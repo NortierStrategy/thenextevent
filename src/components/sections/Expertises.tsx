@@ -6,6 +6,7 @@ import Link from "next/link";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { fadeInUp } from "@/lib/animations";
+import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
 
 interface ExpertisesProps {
@@ -38,7 +39,10 @@ export default function Expertises({ dict, locale }: ExpertisesProps) {
           {services.map((s, i) => (
             <button
               key={s.number}
-              onClick={() => setActive(i)}
+              onClick={() => {
+                setActive(i);
+                trackEvent("expertise_tab_click", { service: s.title });
+              }}
               className={`w-full text-left p-5 rounded-[4px] transition-all duration-300 border ${
                 i === active
                   ? "border-l-2 border-l-red border-red/15 bg-red/[0.04]"

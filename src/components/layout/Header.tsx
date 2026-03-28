@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,6 +17,8 @@ export default function Header({ dict, locale }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 60);
@@ -26,9 +28,46 @@ export default function Header({ dict, locale }: HeaderProps) {
 
   useEffect(() => {
     document.body.style.overflow = isMobileOpen ? "hidden" : "";
+    if (isMobileOpen) {
+      // Focus first focusable element in drawer
+      requestAnimationFrame(() => {
+        const firstLink = drawerRef.current?.querySelector<HTMLElement>("a, button");
+        firstLink?.focus();
+      });
+    } else {
+      // Return focus to hamburger on close
+      hamburgerRef.current?.focus();
+    }
     return () => {
       document.body.style.overflow = "";
     };
+  }, [isMobileOpen]);
+
+  // Trap focus inside drawer + close on Escape
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || !drawerRef.current) return;
+      const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isMobileOpen]);
 
   const closeMobile = useCallback(() => setIsMobileOpen(false), []);
@@ -82,7 +121,7 @@ export default function Header({ dict, locale }: HeaderProps) {
 
             <Link
               href={alternateHref}
-              className="font-outfit text-[11px] font-medium uppercase tracking-[2.5px] text-text-muted hover:text-red transition-colors duration-300 border border-red/20 px-3 py-1 rounded-[2px]"
+              className="font-outfit text-[11px] font-medium uppercase tracking-[2.5px] text-text-muted hover:text-red transition-colors duration-300 border border-red/20 px-4 py-2.5 min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-[2px]"
             >
               {alternateLocale.toUpperCase()}
             </Link>
@@ -109,7 +148,8 @@ export default function Header({ dict, locale }: HeaderProps) {
 
           {/* Mobile Hamburger */}
           <button
-            className="lg:hidden relative flex flex-col gap-1.5 w-10 h-10 items-center justify-center -mr-1"
+            ref={hamburgerRef}
+            className="lg:hidden relative flex flex-col gap-1.5 w-11 h-11 items-center justify-center -mr-1"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label={isMobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileOpen}
@@ -139,6 +179,7 @@ export default function Header({ dict, locale }: HeaderProps) {
           <>
             {/* Backdrop */}
             <motion.div
+              aria-hidden="true"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -148,6 +189,10 @@ export default function Header({ dict, locale }: HeaderProps) {
             />
             {/* Drawer */}
             <motion.div
+              ref={drawerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={locale === "en" ? "Navigation menu" : "Menu de navigation"}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -186,7 +231,10 @@ export default function Header({ dict, locale }: HeaderProps) {
                   >
                     <Link
                       href={link.href}
-                      onClick={closeMobile}
+                      onClick={() => {
+                        trackEvent("nav_link_click", { link: link.label });
+                        closeMobile();
+                      }}
                       className="font-playfair text-2xl text-text-muted hover:text-text transition-colors duration-300"
                     >
                       {link.label}
@@ -202,7 +250,7 @@ export default function Header({ dict, locale }: HeaderProps) {
                   <Link
                     href={alternateHref}
                     onClick={closeMobile}
-                    className="font-outfit text-[13px] font-medium uppercase tracking-[3px] text-text-muted hover:text-red transition-colors duration-300 border border-red/20 px-4 py-2 rounded-[2px]"
+                    className="font-outfit text-[13px] font-medium uppercase tracking-[3px] text-text-muted hover:text-red transition-colors duration-300 border border-red/20 px-5 py-3 min-h-[44px] inline-flex items-center rounded-[2px]"
                   >
                     {alternateLocale === "en" ? "English" : "Fran\u00e7ais"}
                   </Link>

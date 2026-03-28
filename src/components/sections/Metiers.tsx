@@ -5,6 +5,7 @@ import Link from "next/link";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
+import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
 
 interface MetiersProps {
@@ -46,6 +47,7 @@ export default function Metiers({ dict, locale = "fr" }: MetiersProps) {
             <Link
               href={`/${locale}/#contact`}
               aria-label={`${locale === "en" ? "Select a" : "Sélectionner un"} ${metier.title.toLowerCase()}`}
+              onClick={() => trackEvent("metier_cta_click", { metier: metier.title })}
               className="inline-flex items-center gap-2 font-outfit text-[10px] font-semibold uppercase tracking-[2px] text-red hover:text-red-light transition-colors duration-300 group/cta"
             >
               {ctaLabel}

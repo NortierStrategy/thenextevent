@@ -109,6 +109,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Une erreur est survenue";
+      trackEvent("form_submission_error", { form: "contact", error: message });
       setErrorMsg(message);
       setStatus("error");
     }
@@ -153,7 +154,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
               },
             ].map((item) => (
               <div key={item.label}>
-                <span className="font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted block mb-1">
+                <span className="font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted block mb-1">
                   {item.label}
                 </span>
                 {item.href ? (
@@ -202,7 +203,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
               <span className="font-outfit text-[11px] font-semibold uppercase tracking-[2px] text-text block">
                 {calendlyLabel}
               </span>
-              <span className="font-outfit text-[10px] text-text-muted font-light">
+              <span className="font-outfit text-[11px] text-text-muted font-light">
                 {locale === "en"
                   ? "30 min \u00B7 Free consultation"
                   : "30 min \u00B7 Consultation gratuite"}
@@ -312,13 +313,13 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                     >
                       1
                     </span>
-                    <span className="font-outfit text-[10px] font-semibold uppercase tracking-[2px] text-text-muted hidden sm:inline">
+                    <span className="font-outfit text-[11px] font-semibold uppercase tracking-[2px] text-text-muted hidden sm:inline">
                       {locale === "en" ? "Your event" : "Votre événement"}
                     </span>
                   </div>
                   <div className="w-12 h-px bg-red/[0.15]" />
                   <div className="flex-1 flex items-center gap-3 justify-end">
-                    <span className="font-outfit text-[10px] font-semibold uppercase tracking-[2px] text-text-muted hidden sm:inline">
+                    <span className="font-outfit text-[11px] font-semibold uppercase tracking-[2px] text-text-muted hidden sm:inline">
                       {locale === "en" ? "Your details" : "Vos coordonnées"}
                     </span>
                     <span
@@ -357,40 +358,48 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                         className="space-y-6"
                       >
                         {/* Event type cards */}
-                        <div className="space-y-3">
-                          <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+                        <fieldset className="space-y-3 border-0 p-0 m-0">
+                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.eventType}
-                          </label>
+                          </legend>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                            {EVENT_TYPE_CARDS.map((card) => (
-                              <button
-                                key={card.label}
-                                type="button"
-                                aria-label={`${locale === "en" ? "Select" : "Sélectionner"} ${card.label}`}
-                                aria-pressed={formData.event_type === card.label}
-                                onClick={() =>
-                                  updateField("event_type", card.label)
-                                }
-                                className={`flex items-center gap-2.5 px-3.5 py-3 rounded-[2px] border transition-all duration-200 text-left ${
-                                  formData.event_type === card.label
-                                    ? "border-red/40 bg-red/[0.06] text-text"
-                                    : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
-                                }`}
-                              >
-                                <span className="text-base leading-none">
-                                  {card.icon}
-                                </span>
-                                <span className="font-outfit text-[12px] font-light leading-tight">
-                                  {card.label}
-                                </span>
-                              </button>
-                            ))}
+                            {EVENT_TYPE_CARDS.map((card) => {
+                              const isSelected = formData.event_type === card.label;
+                              return (
+                                <button
+                                  key={card.label}
+                                  type="button"
+                                  aria-label={`${locale === "en" ? "Select" : "Sélectionner"} ${card.label}`}
+                                  aria-pressed={isSelected}
+                                  onClick={() =>
+                                    updateField("event_type", card.label)
+                                  }
+                                  className={`relative flex items-center gap-2.5 px-3.5 py-3 rounded-[2px] border transition-all duration-200 text-left ${
+                                    isSelected
+                                      ? "border-red/40 bg-red/[0.06] text-text"
+                                      : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
+                                  }`}
+                                >
+                                  <span className="text-base leading-none">
+                                    {card.icon}
+                                  </span>
+                                  <span className="font-outfit text-[12px] font-light leading-tight">
+                                    {card.label}
+                                  </span>
+                                  {isSelected && (
+                                    <svg className="absolute top-1.5 right-1.5 w-3.5 h-3.5 text-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  )}
+                                </button>
+                              );
+                            })}
                           </div>
-                        </div>
+                        </fieldset>
 
                         {/* Date */}
                         <div className="space-y-2">
-                          <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <label className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.date}
                           </label>
                           <input
@@ -399,34 +408,42 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             onChange={(e) =>
                               updateField("event_date", e.target.value)
                             }
-                            className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-[13px] text-text focus:outline-none focus:border-red/30 transition-colors duration-300"
+                            className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-base text-text focus:outline-none focus:border-red/30 focus:ring-2 focus:ring-red/20 transition-colors duration-300"
                           />
                         </div>
 
                         {/* Location */}
-                        <div className="space-y-3">
-                          <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+                        <fieldset className="space-y-3 border-0 p-0 m-0">
+                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
                             {locale === "en" ? "Location" : "Lieu"}
-                          </label>
+                          </legend>
                           <div className="flex flex-wrap gap-2.5">
-                            {LOCATION_OPTIONS.map((loc) => (
-                              <button
-                                key={loc}
-                                type="button"
-                                aria-label={`${locale === "en" ? "Select location" : "Sélectionner lieu"} ${loc}`}
-                                aria-pressed={formData.location === loc}
-                                onClick={() => updateField("location", loc)}
-                                className={`px-4 py-2.5 rounded-[2px] border font-outfit text-[12px] font-light transition-all duration-200 ${
-                                  formData.location === loc
-                                    ? "border-red/40 bg-red/[0.06] text-text"
-                                    : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
-                                }`}
-                              >
-                                {loc}
-                              </button>
-                            ))}
+                            {LOCATION_OPTIONS.map((loc) => {
+                              const isSelected = formData.location === loc;
+                              return (
+                                <button
+                                  key={loc}
+                                  type="button"
+                                  aria-label={`${locale === "en" ? "Select location" : "Sélectionner lieu"} ${loc}`}
+                                  aria-pressed={isSelected}
+                                  onClick={() => updateField("location", loc)}
+                                  className={`relative px-4 py-2.5 rounded-[2px] border font-outfit text-[12px] font-light transition-all duration-200 ${
+                                    isSelected
+                                      ? "border-red/40 bg-red/[0.06] text-text"
+                                      : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
+                                  }`}
+                                >
+                                  {isSelected && (
+                                    <svg className="absolute -top-1 -right-1 w-3.5 h-3.5 text-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  )}
+                                  {loc}
+                                </button>
+                              );
+                            })}
                           </div>
-                        </div>
+                        </fieldset>
 
                         {/* Next button */}
                         <button
@@ -503,33 +520,41 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                         </div>
 
                         {/* Budget */}
-                        <div className="space-y-3">
-                          <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+                        <fieldset className="space-y-3 border-0 p-0 m-0">
+                          <legend className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.budget}
-                          </label>
+                          </legend>
                           <div className="flex flex-wrap gap-2.5">
-                            {BUDGET_OPTIONS.map((opt) => (
-                              <button
-                                key={opt}
-                                type="button"
-                                aria-label={`${locale === "en" ? "Select budget" : "Sélectionner budget"} ${opt}`}
-                                aria-pressed={formData.budget === opt}
-                                onClick={() => updateField("budget", opt)}
-                                className={`px-4 py-2.5 rounded-[2px] border font-outfit text-[12px] font-light transition-all duration-200 ${
-                                  formData.budget === opt
-                                    ? "border-red/40 bg-red/[0.06] text-text"
-                                    : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
-                                }`}
-                              >
-                                {opt}
-                              </button>
-                            ))}
+                            {BUDGET_OPTIONS.map((opt) => {
+                              const isSelected = formData.budget === opt;
+                              return (
+                                <button
+                                  key={opt}
+                                  type="button"
+                                  aria-label={`${locale === "en" ? "Select budget" : "Sélectionner budget"} ${opt}`}
+                                  aria-pressed={isSelected}
+                                  onClick={() => updateField("budget", opt)}
+                                  className={`relative px-4 py-2.5 rounded-[2px] border font-outfit text-[12px] font-light transition-all duration-200 ${
+                                    isSelected
+                                      ? "border-red/40 bg-red/[0.06] text-text"
+                                      : "border-red/[0.07] bg-medium text-text-muted hover:border-red/20 hover:text-text"
+                                  }`}
+                                >
+                                  {isSelected && (
+                                    <svg className="absolute -top-1 -right-1 w-3.5 h-3.5 text-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  )}
+                                  {opt}
+                                </button>
+                              );
+                            })}
                           </div>
-                        </div>
+                        </fieldset>
 
                         {/* Message */}
                         <div className="space-y-2">
-                          <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+                          <label className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
                             {c.form.message}
                           </label>
                           <textarea
@@ -540,7 +565,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                             onChange={(e) =>
                               updateField("message", e.target.value)
                             }
-                            className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-[13px] text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 transition-colors duration-300 resize-none"
+                            className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-base text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 focus:ring-2 focus:ring-red/20 transition-colors duration-300 resize-none"
                           />
                         </div>
 
@@ -677,7 +702,7 @@ function FormField({
   const fieldId = `field-${name}`;
   return (
     <div className="space-y-2">
-      <label htmlFor={fieldId} className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+      <label htmlFor={fieldId} className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
         {label}
       </label>
       <input
@@ -686,9 +711,10 @@ function FormField({
         type={type}
         placeholder={placeholder}
         required={required}
+        aria-required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-[13px] text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 transition-colors duration-300"
+        className="w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-base text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 focus:ring-2 focus:ring-red/20 transition-colors duration-300"
       />
     </div>
   );

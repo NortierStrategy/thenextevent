@@ -1,14 +1,10 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 import type { Dictionary } from "@/lib/i18n";
 
 /**
  * Client logos mapped to SVG files in /public/images/clients/
  * Each entry: [filename, display width, display height]
- * Replace SVGs with official brand assets for production.
  */
 const clientLogos: [string, number, number][] = [
   ["porsche",        120, 24],
@@ -36,13 +32,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
 
   return (
     <section className="bg-dark border-y border-red/[0.08] py-7 overflow-hidden">
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        className="relative"
-      >
+      <InView className="relative">
         {/* Edge fade masks */}
         <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-dark to-transparent z-10 pointer-events-none" />
         <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-dark to-transparent z-10 pointer-events-none" />
@@ -58,7 +48,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
             >
               <Image
                 src={`/images/clients/${name}.svg`}
-                alt={name}
+                alt={`Logo ${name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, " ")}`}
                 width={w}
                 height={h}
                 className="opacity-30 hover:opacity-55 transition-opacity duration-500 select-none"
@@ -72,7 +62,7 @@ export default function Clients({ /* dict */ }: ClientsProps) {
             </div>
           ))}
         </div>
-      </motion.div>
+      </InView>
     </section>
   );
 }

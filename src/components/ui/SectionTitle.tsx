@@ -1,7 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { fadeInUp } from "@/lib/animations";
+import InView from "@/components/ui/InView";
 
 interface SectionTitleProps {
   label?: string;
@@ -31,13 +28,7 @@ export default function SectionTitle({
   };
 
   return (
-    <motion.div
-      variants={fadeInUp}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      className={`text-center mb-16 ${className}`}
-    >
+    <InView className={`text-center mb-16 ${className}`}>
       {label && (
         <span className="font-outfit text-[11px] font-semibold uppercase tracking-[6px] text-red mb-4 block">
           {label}
@@ -51,6 +42,6 @@ export default function SectionTitle({
           {subtitle}
         </p>
       )}
-    </motion.div>
+    </InView>
   );
 }

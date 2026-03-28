@@ -31,6 +31,14 @@ export async function generateMetadata({
       siteName: "The Next Event",
       locale: isEN ? "en_GB" : "fr_FR",
       type: "website",
+      images: [
+        {
+          url: `${baseUrl}/images/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: "The Next Event — Blog",
+        },
+      ],
     },
   };
 }

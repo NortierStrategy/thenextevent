@@ -1,10 +1,38 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Contact \u2014 Demander un Devis",
-  description:
-    "Contactez The Next Event pour votre projet \u00e9v\u00e9nementiel. Devis personnalis\u00e9 sous 24h pour le staffing de vos \u00e9v\u00e9nements de luxe.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  const baseUrl = "https://thenextevent.fr";
+
+  return {
+    title: isEn
+      ? "Contact — Request a Quote"
+      : "Contact — Demander un Devis",
+    description: isEn
+      ? "Contact The Next Event for your event project. Custom quote within 24h for luxury event staffing in Paris and internationally."
+      : "Contactez The Next Event pour votre projet événementiel. Devis personnalisé sous 24h pour le staffing de vos événements de luxe.",
+    alternates: {
+      canonical: `${baseUrl}/${locale}/contact`,
+      languages: {
+        fr: `${baseUrl}/fr/contact`,
+        en: `${baseUrl}/en/contact`,
+      },
+    },
+    openGraph: {
+      title: isEn ? "Contact The Next Event" : "Contacter The Next Event",
+      description: isEn
+        ? "Get a custom quote within 24h. Call +33 6 60 38 80 27."
+        : "Obtenez un devis personnalisé sous 24h. Appelez le 06 60 38 80 27.",
+      url: `${baseUrl}/${locale}/contact`,
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+    },
+  };
+}
 
 export default function ContactLayout({
   children,

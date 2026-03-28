@@ -1,10 +1,38 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Services \u2014 Staffing \u00c9v\u00e9nementiel Premium",
-  description:
-    "R\u00e9gisseurs, h\u00f4tes premium et coordination g\u00e9n\u00e9rale. D\u00e9couvrez nos expertises en staffing \u00e9v\u00e9nementiel de luxe \u00e0 Paris.",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  const baseUrl = "https://thenextevent.fr";
+
+  return {
+    title: isEn
+      ? "Services — Premium Event Staffing"
+      : "Services — Staffing Événementiel Premium",
+    description: isEn
+      ? "Elite event managers, premium hosts and full event coordination. Discover our luxury event staffing expertise in Paris and internationally."
+      : "Régisseurs d'élite, hôtes premium et coordination générale. Découvrez nos expertises en staffing événementiel de luxe à Paris et à l'international.",
+    alternates: {
+      canonical: `${baseUrl}/${locale}/services`,
+      languages: {
+        fr: `${baseUrl}/fr/services`,
+        en: `${baseUrl}/en/services`,
+      },
+    },
+    openGraph: {
+      title: isEn ? "Our Event Staffing Services" : "Nos Services de Staffing Événementiel",
+      description: isEn
+        ? "300+ elite event managers deployed within 24h. White-glove service for luxury events."
+        : "300+ régisseurs d'élite déployés en 24h. Service gants blancs pour événements de luxe.",
+      url: `${baseUrl}/${locale}/services`,
+      images: [{ url: `${baseUrl}/images/og-image.jpg`, width: 1200, height: 630 }],
+    },
+  };
+}
 
 export default function ServicesLayout({
   children,

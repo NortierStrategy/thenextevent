@@ -38,7 +38,7 @@ export default function BlogListing({ posts, locale }: BlogListingProps) {
   };
 
   return (
-    <div className="bg-black min-h-screen pt-32 pb-20 px-6 md:px-8">
+    <div className="bg-black min-h-[100dvh] pt-32 pb-20 px-6 md:px-8">
       <div className="max-w-[1200px] mx-auto">
         {/* Header */}
         <motion.div

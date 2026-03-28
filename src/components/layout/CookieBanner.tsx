@@ -21,9 +21,11 @@ type ConsentState = "pending" | "accepted" | "rejected";
 
 export default function CookieBanner() {
   const [consent, setConsent] = useState<ConsentState>("accepted"); // default to hide
+  const [isEN, setIsEN] = useState(false);
 
   useEffect(() => {
     if (!HAS_TRACKING) return;
+    setIsEN(document.documentElement.lang === "en");
     const stored = localStorage.getItem(CONSENT_KEY);
     if (stored === "accepted" || stored === "rejected") {
       setConsent(stored as ConsentState);
@@ -51,26 +53,30 @@ export default function CookieBanner() {
       <div className="max-w-[800px] mx-auto bg-dark/95 backdrop-blur-xl border border-red/10 rounded-[4px] p-5 md:p-6 shadow-2xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <p className="font-outfit text-[13px] text-text/80 font-light leading-[1.7] flex-1">
-            Nous utilisons des cookies pour mesurer l&apos;audience et am&eacute;liorer votre exp&eacute;rience.{" "}
+            {isEN
+              ? "We use cookies to measure audience and improve your experience. "
+              : "Nous utilisons des cookies pour mesurer l\u2019audience et am\u00e9liorer votre exp\u00e9rience. "}
             <Link
-              href="/fr/mentions-legales"
+              href={isEN ? "/en/mentions-legales" : "/fr/mentions-legales"}
               className="text-red hover:text-red-light underline underline-offset-2 transition-colors duration-200"
             >
-              En savoir plus
+              {isEN ? "Learn more" : "En savoir plus"}
             </Link>
           </p>
           <div className="flex gap-3 shrink-0">
             <button
               onClick={handleReject}
-              className="px-4 py-2 font-outfit text-[11px] font-medium uppercase tracking-[2px] text-text-muted border border-red/15 rounded-[2px] hover:border-red/30 hover:text-text transition-all duration-300"
+              aria-label={isEN ? "Reject cookies" : "Refuser les cookies"}
+              className="px-5 py-2.5 min-h-[44px] font-outfit text-[11px] font-medium uppercase tracking-[2px] text-text-muted border border-red/15 rounded-[2px] hover:border-red/30 hover:text-text transition-all duration-300"
             >
-              Refuser
+              {isEN ? "Reject" : "Refuser"}
             </button>
             <button
               onClick={handleAccept}
-              className="px-4 py-2 font-outfit text-[11px] font-bold uppercase tracking-[2px] text-white bg-gradient-to-br from-red to-red-dark rounded-[2px] hover:from-red-light hover:to-red hover:shadow-[0_0_15px_rgba(155,27,36,0.3)] transition-all duration-300"
+              aria-label={isEN ? "Accept cookies" : "Accepter les cookies"}
+              className="px-5 py-2.5 min-h-[44px] font-outfit text-[11px] font-bold uppercase tracking-[2px] text-white bg-gradient-to-br from-red to-red-dark rounded-[2px] hover:from-red-light hover:to-red hover:shadow-[0_0_15px_rgba(155,27,36,0.3)] transition-all duration-300"
             >
-              Accepter
+              {isEN ? "Accept" : "Accepter"}
             </button>
           </div>
         </div>

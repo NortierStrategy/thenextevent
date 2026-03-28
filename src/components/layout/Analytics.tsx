@@ -14,8 +14,8 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
 const LINKEDIN_PARTNER_ID = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID || "";
-const HOTJAR_ID = process.env.NEXT_PUBLIC_HOTJAR_ID || "";
 const CONTENTSQUARE_ID = process.env.NEXT_PUBLIC_CONTENTSQUARE_ID || "";
+const LINKEDIN_CONVERSION_ID = process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_ID || "";
 
 const CONSENT_KEY = "tne_cookie_consent";
 
@@ -26,9 +26,8 @@ export default function Analytics() {
   const hasGTM = GTM_ID.length > 0;
   const hasMeta = META_PIXEL_ID.length > 0;
   const hasLinkedIn = LINKEDIN_PARTNER_ID.length > 0;
-  const hasHotjar = HOTJAR_ID.length > 0;
   const hasContentsquare = CONTENTSQUARE_ID.length > 0;
-  const hasAny = hasGA || hasGTM || hasMeta || hasLinkedIn || hasHotjar || hasContentsquare;
+  const hasAny = hasGA || hasGTM || hasMeta || hasLinkedIn || hasContentsquare;
 
   const scrollTrackedRef = useRef<{ half: boolean; full: boolean }>({
     half: false,
@@ -167,22 +166,6 @@ export default function Analytics() {
         </Script>
       )}
 
-      {/* ── Hotjar (legacy) ── */}
-      {hasHotjar && (
-        <Script id="hotjar" strategy="afterInteractive">
-          {`
-            (function(h,o,t,j,a,r){
-              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-              h._hjSettings={hjid:${HOTJAR_ID},hjsv:6};
-              a=o.getElementsByTagName('head')[0];
-              r=o.createElement('script');r.async=1;
-              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-              a.appendChild(r);
-            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-          `}
-        </Script>
-      )}
-
       {/* ── Contentsquare (ex-Hotjar) ── */}
       {hasContentsquare && (
         <Script
@@ -196,16 +179,50 @@ export default function Analytics() {
 }
 
 /**
+ * Allowed event names — ensures consistency across the codebase.
+ * "Lead" is a standard Meta Pixel event, the rest are custom.
+ */
+export type TrackEventName =
+  | "Lead"
+  | "phone_click"
+  | "calendly_click"
+  | "whatsapp_click"
+  | "cta_hero_click"
+  | "nav_link_click"
+  | "expertise_tab_click"
+  | "metier_cta_click"
+  | "realisation_click"
+  | "form_step1_complete"
+  | "form_submission_error"
+  | "scroll_depth";
+
+/**
  * Track custom events (form submissions, CTA clicks, etc.)
  * Safe to call anytime — silently no-ops if scripts aren't loaded.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export function trackEvent(eventName: string, params?: Record<string, string>) {
+export function trackEvent(eventName: TrackEventName, params?: Record<string, string>) {
   const w = typeof window !== "undefined" ? (window as any) : null;
   if (!w) return;
+
+  // GA4
   if (w.gtag) w.gtag("event", eventName, params);
+
+  // GTM dataLayer
   if (w.dataLayer) w.dataLayer.push({ event: eventName, ...params });
-  if (w.fbq) w.fbq("trackCustom", eventName, params);
-  if (w.lintrk) w.lintrk("track", { conversion_id: eventName });
+
+  // Meta Pixel — standard "Lead" event vs custom
+  if (w.fbq) {
+    if (eventName === "Lead") {
+      w.fbq("track", "Lead", params);
+    } else {
+      w.fbq("trackCustom", eventName, params);
+    }
+  }
+
+  // LinkedIn — only track Lead conversions with proper conversion ID
+  if (w.lintrk && eventName === "Lead" && LINKEDIN_CONVERSION_ID) {
+    w.lintrk("track", { conversion_id: LINKEDIN_CONVERSION_ID });
+  }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

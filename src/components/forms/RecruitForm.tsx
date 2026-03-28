@@ -7,6 +7,7 @@ import { useState } from "react";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
+import { trackEvent } from "@/components/layout/Analytics";
 
 const recruitSchema = z.object({
   nom: z.string().min(1, "Nom requis"),
@@ -30,10 +31,27 @@ export default function RecruitForm() {
     resolver: zodResolver(recruitSchema),
   });
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   const onSubmit = async (data: RecruitFormData) => {
-    console.log("Recruit form data:", data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubmitted(true);
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/recruit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const json = await res.json();
+        throw new Error(json.error || "Erreur serveur");
+      }
+      trackEvent("Lead", { form: "recruit" });
+      setIsSubmitted(true);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Une erreur est survenue.";
+      trackEvent("form_submission_error", { form: "recruit", error: message });
+      setErrorMsg(message);
+    }
   };
 
   if (isSubmitted) {
@@ -98,6 +116,9 @@ export default function RecruitForm() {
           recrutement@thenextevent.fr
         </a>
       </p>
+      {errorMsg && (
+        <p className="text-red text-sm font-light">{errorMsg}</p>
+      )}
       <Button type="submit" variant="primary" disabled={isSubmitting}>
         {isSubmitting ? "Envoi en cours..." : "Envoyer ma candidature"}
       </Button>

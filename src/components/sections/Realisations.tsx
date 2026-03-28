@@ -5,7 +5,12 @@ import { motion } from "framer-motion";
 import Section from "@/components/ui/Section";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
+import { trackEvent } from "@/components/layout/Analytics";
 import type { Dictionary } from "@/lib/i18n";
+
+// 4x3 dark placeholder — prevents CLS and provides visual loading state
+const BLUR_DATA_URL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMUUxRTFFIi8+PC9zdmc+";
 
 interface RealisationsProps {
   dict: Dictionary;
@@ -37,6 +42,11 @@ export default function Realisations({ dict }: RealisationsProps) {
           <motion.div
             key={`${item.title}-${i}`}
             variants={fadeInUp}
+            role="button"
+            tabIndex={0}
+            aria-label={item.title}
+            onClick={() => trackEvent("realisation_click", { project: item.title })}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") trackEvent("realisation_click", { project: item.title }); }}
             className="group relative aspect-[4/3] rounded-[4px] border border-red/[0.08] overflow-hidden cursor-pointer hover:border-red/25 transition-all duration-500 hover:-translate-y-[3px]"
           >
             {/* Photo */}
@@ -47,6 +57,9 @@ export default function Realisations({ dict }: RealisationsProps) {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
+                {...(i < 3 ? { priority: true } : {})}
               />
             )}
             {/* Dark overlay */}

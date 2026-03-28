@@ -10,21 +10,27 @@ interface TextareaProps
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, className = "", ...props }, ref) => {
+    const textareaId = props.id || props.name || undefined;
+    const errorId = error && textareaId ? `${textareaId}-error` : undefined;
     return (
       <div className="space-y-2">
-        <label className="block font-outfit text-[10px] font-semibold uppercase tracking-[3px] text-text-muted">
+        <label htmlFor={textareaId} className="block font-outfit text-[11px] font-semibold uppercase tracking-[3px] text-text-muted">
           {label}
         </label>
         <textarea
           ref={ref}
-          className={`w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-[13px] text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 transition-colors duration-300 resize-none ${
+          id={textareaId}
+          aria-required={props.required}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={errorId}
+          className={`w-full bg-medium border border-red/[0.07] rounded-[2px] px-3.5 py-3 font-outfit text-base text-text placeholder:text-text-muted/40 focus:outline-none focus:border-red/30 focus:ring-2 focus:ring-red/20 transition-colors duration-300 resize-none ${
             error ? "border-red" : ""
           } ${className}`}
           rows={5}
           {...props}
         />
         {error && (
-          <p className="text-red text-xs font-outfit">{error}</p>
+          <p id={errorId} role="alert" className="text-red text-xs font-outfit">{error}</p>
         )}
       </div>
     );

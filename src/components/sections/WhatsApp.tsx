@@ -39,25 +39,6 @@ export default function WhatsApp({ dict }: WhatsAppProps) {
 
   return (
     <>
-      {/* Pulse keyframes */}
-      <style jsx global>{`
-        @keyframes whatsapp-pulse {
-          0% {
-            box-shadow: 0 0 0 0 rgba(247, 0, 29, 0.4);
-          }
-          70% {
-            box-shadow: 0 0 0 14px rgba(247, 0, 29, 0);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(247, 0, 29, 0);
-          }
-        }
-
-        .whatsapp-pulse {
-          animation: whatsapp-pulse 2s ease-in-out;
-        }
-      `}</style>
-
       <a
         ref={btnRef}
         href="https://wa.me/33660388027?text=Bonjour%2C%20je%20souhaite%20un%20devis%20pour%20un%20%C3%A9v%C3%A9nement."

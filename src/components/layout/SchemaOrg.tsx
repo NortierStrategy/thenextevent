@@ -19,6 +19,13 @@ export default function SchemaOrg({ locale }: SchemaOrgProps) {
     url: `https://thenextevent.fr/${locale}`,
     telephone: "+33660388027",
     email: "nicola@thenextevent.fr",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+33660388027",
+      contactType: isEn ? "customer service" : "service client",
+      availableLanguage: ["French", "English"],
+      areaServed: ["FR", "EU"],
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: "66 rue du Cherche-Midi",
@@ -121,7 +128,11 @@ export default function SchemaOrg({ locale }: SchemaOrgProps) {
         closes: "19:00",
       },
     ],
-    sameAs: [],
+    sameAs: [
+      "https://www.linkedin.com/company/thenextevent/",
+      "https://www.instagram.com/thenextevent.fr/",
+      "https://www.facebook.com/thenextevent.fr/",
+    ],
   };
 
   const faqPage = {

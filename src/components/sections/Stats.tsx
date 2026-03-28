@@ -1,5 +1,3 @@
-"use client";
-
 import Counter from "@/components/ui/Counter";
 import type { Dictionary } from "@/lib/i18n";
 

@@ -33,7 +33,7 @@ export default function Button({
   disabled = false,
 }: ButtonProps) {
   const base =
-    "inline-flex items-center justify-center px-6 py-2.5 font-outfit text-[11px] font-semibold tracking-[3px] rounded-[2px] transition-all duration-300 ease-out uppercase active:scale-[0.97]";
+    "inline-flex items-center justify-center px-6 py-3.5 min-h-[44px] font-outfit text-[11px] font-semibold tracking-[3px] rounded-[2px] transition-all duration-300 ease-out uppercase active:scale-[0.97]";
 
   const classes = `${base} ${variants[variant]} ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`;
 

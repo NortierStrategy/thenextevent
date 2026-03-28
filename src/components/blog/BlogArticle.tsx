@@ -111,7 +111,7 @@ export default function BlogArticle({
     });
   };
 
-  // JSON-LD structured data
+  // JSON-LD structured data — Article
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -119,15 +119,52 @@ export default function BlogArticle({
     description: isEN ? post.excerptEN : post.excerpt,
     image: `https://thenextevent.fr${post.image}`,
     datePublished: post.date,
-    author: { "@type": "Person", name: post.author },
+    dateModified: post.date,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://thenextevent.fr/${locale}/blog/${post.slug}`,
+    },
+    author: {
+      "@type": "Person",
+      name: post.author,
+      url: "https://thenextevent.fr",
+    },
     publisher: {
       "@type": "Organization",
       name: "The Next Event",
+      url: "https://thenextevent.fr",
       logo: {
         "@type": "ImageObject",
         url: "https://thenextevent.fr/images/logo.png",
       },
     },
+    inLanguage: isEN ? "en" : "fr",
+  };
+
+  // JSON-LD structured data — BreadcrumbList
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: isEN ? "Home" : "Accueil",
+        item: `https://thenextevent.fr/${locale}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `https://thenextevent.fr/${locale}/blog`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+        item: `https://thenextevent.fr/${locale}/blog/${post.slug}`,
+      },
+    ],
   };
 
   return (
@@ -136,11 +173,16 @@ export default function BlogArticle({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
 
-      <article className="bg-black min-h-screen pt-32 pb-20 px-6 md:px-8">
+      <article className="bg-black min-h-[100dvh] pt-32 pb-20 px-6 md:px-8">
         <div className="max-w-[720px] mx-auto">
           {/* Breadcrumb */}
           <motion.nav
+            aria-label="Breadcrumb"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
