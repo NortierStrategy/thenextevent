@@ -164,6 +164,46 @@ export default function SchemaOrg({ locale }: SchemaOrgProps) {
               text: "White-glove service refers to premium logistics with extreme attention to detail: discretion, operational elegance, anticipation and surgical precision. Our luxury event production managers embody this philosophy at every event in Paris and internationally.",
             },
           },
+          {
+            "@type": "Question",
+            name: "How quickly can you mobilize your teams?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "We deploy our event managers within 24 to 48 hours across France and Europe. For planned events, we recommend a briefing 2 weeks before the event.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What types of events do you cover?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Fashion shows, product launches, galas, conferences, corporate summits, luxury weddings, trade shows and high-end private events.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do you operate internationally?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. Our teams operate across Europe and regularly support events in London, Milan, Geneva and beyond.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "How does your pricing work?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Each project receives a custom quote based on the number of event managers, duration and complexity. Request your proposal within 24h through our contact form.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is your team's experience?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Our event managers average 8 years of experience in luxury events. Each profile is carefully selected, trained and briefed specifically for your event.",
+            },
+          },
         ]
       : [
           {
@@ -188,6 +228,46 @@ export default function SchemaOrg({ locale }: SchemaOrgProps) {
             acceptedAnswer: {
               "@type": "Answer",
               text: "Le service gants blancs d\u00e9signe une logistique haut de gamme avec une attention extr\u00eame au d\u00e9tail : discr\u00e9tion, \u00e9l\u00e9gance op\u00e9rationnelle, anticipation et pr\u00e9cision chirurgicale. Nos r\u00e9gisseurs \u00e9v\u00e9nementiels de luxe incarnent cette philosophie sur chaque \u00e9v\u00e9nement \u00e0 Paris et \u00e0 l'international.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Quel est le d\u00e9lai de mobilisation de vos \u00e9quipes ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nous d\u00e9ployons nos r\u00e9gisseurs sous 24 \u00e0 48 heures partout en France et en Europe. Pour les \u00e9v\u00e9nements planifi\u00e9s, nous recommandons un briefing 2 semaines avant le jour J.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Quels types d'\u00e9v\u00e9nements couvrez-vous ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "D\u00e9fil\u00e9s de mode, lancements de produits, galas, conf\u00e9rences, sommets corporate, mariages de prestige, salons professionnels et \u00e9v\u00e9nements priv\u00e9s haut de gamme.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Intervenez-vous \u00e0 l'international ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Oui. Nos \u00e9quipes interviennent dans toute l'Europe et accompagnent r\u00e9guli\u00e8rement des \u00e9v\u00e9nements \u00e0 Londres, Milan, Gen\u00e8ve et au-del\u00e0.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Comment fonctionne votre tarification ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Chaque projet fait l'objet d'un devis personnalis\u00e9 selon le nombre de r\u00e9gisseurs, la dur\u00e9e et la complexit\u00e9 de l'\u00e9v\u00e9nement. Demandez votre proposition sous 24h via notre formulaire.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Quelle est l'exp\u00e9rience de vos r\u00e9gisseurs ?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Nos r\u00e9gisseurs cumulent en moyenne 8 ans d'exp\u00e9rience dans l'\u00e9v\u00e9nementiel luxe. Chaque profil est s\u00e9lectionn\u00e9, form\u00e9 et brief\u00e9 sp\u00e9cifiquement pour votre \u00e9v\u00e9nement.",
             },
           },
         ],
