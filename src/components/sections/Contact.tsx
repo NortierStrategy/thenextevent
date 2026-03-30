@@ -25,14 +25,14 @@ interface FormData {
   message: string;
 }
 
-const EVENT_TYPE_CARDS: { label: string; icon: string }[] = [
-  { label: "Défilé de mode", icon: "💃" },
-  { label: "Shooting photo/vidéo", icon: "\uD83D\uDCF8" },
-  { label: "Lancement produit", icon: "\uD83D\uDE80" },
-  { label: "Gala & soirée prestige", icon: "\uD83E\uDD42" },
-  { label: "Sommet & conférence", icon: "\uD83C\uDF99\uFE0F" },
-  { label: "Salon & exposition", icon: "\uD83C\uDFDB\uFE0F" },
-  { label: "Autre", icon: "\u2726" },
+const EVENT_TYPE_CARDS: { fr: string; en: string; icon: string }[] = [
+  { fr: "Défilé de mode", en: "Fashion show", icon: "💃" },
+  { fr: "Shooting photo/vidéo", en: "Photo/video shoot", icon: "\uD83D\uDCF8" },
+  { fr: "Lancement produit", en: "Product launch", icon: "\uD83D\uDE80" },
+  { fr: "Gala & soirée prestige", en: "Gala & prestige evening", icon: "\uD83E\uDD42" },
+  { fr: "Sommet & conférence", en: "Summit & conference", icon: "\uD83C\uDF99\uFE0F" },
+  { fr: "Salon & exposition", en: "Trade show & exhibition", icon: "\uD83C\uDFDB\uFE0F" },
+  { fr: "Autre", en: "Other", icon: "\u2726" },
 ];
 
 const LOCATION_OPTIONS = ["Paris", "Province", "International"] as const;
@@ -143,12 +143,6 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
 
           <div className="space-y-6 mb-10">
             {[
-              {
-                label: c.phone.label,
-                value: c.phone.value,
-                href: `tel:${c.phone.value.replace(/\s/g, "")}`,
-                track: true,
-              },
               {
                 label: c.email.label,
                 value: c.email.value,
@@ -283,26 +277,6 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                 <p className="font-outfit text-sm text-text-muted font-light max-w-[300px] mx-auto mb-6">
                   {c.form.successText}
                 </p>
-                <a
-                  href="tel:+33660388027"
-                  onClick={() => trackEvent("phone_click")}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-red/20 rounded-[2px] hover:border-red/40 hover:bg-red/5 transition-all duration-300 font-outfit text-[12px] font-semibold uppercase tracking-[2px] text-text"
-                >
-                  <svg
-                    className="w-4 h-4 text-red"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={1.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                    />
-                  </svg>
-                  Nous appeler : 06 60 38 80 27
-                </a>
                 <button
                   type="button"
                   onClick={resetForm}
@@ -380,15 +354,16 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                           </legend>
                           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                             {EVENT_TYPE_CARDS.map((card) => {
-                              const isSelected = formData.event_type === card.label;
+                              const label = locale === "en" ? card.en : card.fr;
+                              const isSelected = formData.event_type === label;
                               return (
                                 <button
-                                  key={card.label}
+                                  key={card.fr}
                                   type="button"
-                                  aria-label={`${locale === "en" ? "Select" : "Sélectionner"} ${card.label}`}
+                                  aria-label={`${locale === "en" ? "Select" : "Sélectionner"} ${label}`}
                                   aria-pressed={isSelected}
                                   onClick={() =>
-                                    updateField("event_type", card.label)
+                                    updateField("event_type", label)
                                   }
                                   className={`relative flex items-center gap-2.5 px-3.5 py-3 rounded-[2px] border transition-all duration-200 text-left ${
                                     isSelected
@@ -400,7 +375,7 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                                     {card.icon}
                                   </span>
                                   <span className="font-outfit text-[12px] font-light leading-tight">
-                                    {card.label}
+                                    {label}
                                   </span>
                                   {isSelected && (
                                     <svg className="absolute top-1.5 right-1.5 w-3.5 h-3.5 text-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
@@ -611,23 +586,12 @@ export default function Contact({ dict, locale = "fr" }: ContactProps) {
                                 d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
                               />
                             </svg>
-                            <div>
-                              <p className="font-outfit text-[12px] text-red font-medium">
-                                {errorMsg ||
-                                  (locale === "en"
-                                    ? "An error occurred"
-                                    : "Une erreur est survenue")}
-                              </p>
-                              <a
-                                href="tel:+33660388027"
-                                onClick={() => trackEvent("phone_click")}
-                                className="font-outfit text-[11px] text-text-muted hover:text-red transition-colors duration-200 mt-1 inline-block"
-                              >
-                                {locale === "en"
-                                  ? "Call us: 06 60 38 80 27"
-                                  : "Nous appeler : 06 60 38 80 27"}
-                              </a>
-                            </div>
+                            <p className="font-outfit text-[12px] text-red font-medium">
+                              {errorMsg ||
+                                (locale === "en"
+                                  ? "An error occurred"
+                                  : "Une erreur est survenue")}
+                            </p>
                           </motion.div>
                         )}
 
