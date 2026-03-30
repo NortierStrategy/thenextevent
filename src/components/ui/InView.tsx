@@ -8,6 +8,7 @@ interface InViewProps {
   className?: string;
   id?: string;
   margin?: string;
+  stagger?: number;
 }
 
 /**
@@ -21,6 +22,7 @@ export default function InView({
   className = "",
   id,
   margin = "-80px",
+  stagger,
 }: InViewProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"pending" | "instant" | "animated">("pending");
@@ -52,12 +54,14 @@ export default function InView({
     return () => observer.disconnect();
   }, [margin]);
 
+  const staggerCls = stagger && stagger >= 1 && stagger <= 5 ? ` in-view-stagger-${stagger}` : "";
+
   const cls =
     state === "pending"
       ? "in-view-hidden"
       : state === "instant"
         ? "in-view-instant"
-        : "in-view-visible";
+        : `in-view-visible${staggerCls}`;
 
   return createElement(
     as,

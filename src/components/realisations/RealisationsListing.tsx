@@ -32,10 +32,10 @@ export default function RealisationsListing({ items, dict, locale }: Realisation
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {items.map((item) => {
+          {items.map((item, i) => {
             const data = isEN ? item.en : item.fr;
             return (
-              <InView key={item.slug}>
+              <InView key={item.slug} stagger={(i % 3) + 1}>
                 <Link
                   href={`/${locale}/realisations/${item.slug}`}
                   className="group relative aspect-[4/3] rounded-[4px] border border-red/[0.08] overflow-hidden block hover:border-red/25 transition-all duration-500 hover:-translate-y-[3px]"

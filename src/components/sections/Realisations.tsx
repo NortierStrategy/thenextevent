@@ -37,7 +37,7 @@ export default function Realisations({ dict, locale }: RealisationsProps) {
         {items.map((item, i) => {
           const data = isEN ? item.en : item.fr;
           return (
-            <InView key={item.slug}>
+            <InView key={item.slug} stagger={(i % 3) + 1}>
               <Link
                 href={`/${locale}/realisations/${item.slug}`}
                 onClick={() => trackEvent("realisation_click", { project: data.title })}

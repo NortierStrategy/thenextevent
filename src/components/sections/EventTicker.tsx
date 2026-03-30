@@ -6,8 +6,9 @@ const items = [
   "LANCEMENT PORSCHE",
   "GALA VEUVE CLICQUOT",
   "SOMMET GOOGLE",
-  "SHOOTING GIVENCHY",
+  "DINER GIVENCHY HAUTE COUTURE",
   "CONFÉRENCE LINKEDIN",
+  "SOMMETS WORLD ECONOMIC FORUM",
 ];
 
 const tripled = [...items, ...items, ...items];
